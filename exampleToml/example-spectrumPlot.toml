@@ -1,0 +1,215 @@
+
+#TOML MADE USING https://toml-online-parser.ovonick.com/
+
+xStepMod=1.5
+
+ylim=[2.185, 4.45]
+
+[eMass]
+# Physical masses of particles in GeV
+# Taken from particle data group
+# Averaged over charge combinations
+# See 12/04/2022
+unit = 'GeV'
+# spin 1/2
+[eMass.doublet_2fl_uud]
+# Formatted like this for gvar
+P = '0.9395641(6)'
+M = '1.530(15)'
+name = 'N(uud)'
+J = '1/2'
+[eMass.doublet_2fl_uus]
+P = '1.1893(7)'
+M = '1.620(30)'
+name = '\Sigma(uus)'
+J = '1/2'
+[eMass.sigma12_3fl_udc]
+P = '2.45354(15)'
+M = '2.7997(56)'
+name = '\Sigma_{c}(udc)'
+J = '1/2'
+[eMass.sigma12_3fl_usc]
+P = '2.57845(35)'
+M = ''
+name = '\Xi_{c}^{\prime}(usc)'
+J = '1/2'
+[eMass.doublet_2fl_ssu]
+P = '1.31828(11)'
+M = '1.690(10)'
+name = '\Xi(dss)'
+J = '1/2'
+[eMass.doublet_2fl_ssc]
+P = '2.6952(17)'
+M = '3.065(22)'
+name = '\Omega_{c}(ssc)'
+J = '1/2'
+[eMass.doublet_2fl_ccu]
+P = '3.6216(4)'
+M = ''
+name = '\Xi_{cc}(ccu)'
+J = '1/2'
+[eMass.doublet_2fl_ccs]
+P = ''
+M = ''
+name = '\Omega_{cc}(ccs)'
+J = '1/2'
+[eMass.lambda_3fl_udc]
+P = '2.2846(14)'
+M = '2.59225(28)'
+name = '\Lambda_{c}(udc)'
+J = '1/2'
+[eMass.lambda_3fl_usc]
+P = '2.46907(18)'
+M = '2.79290(35)'
+name = '\Xi_{c}(usc)'
+J = '1/2'
+# Spin 3/2
+[eMass.sigma32_3fl_udc]
+P = '2.51813(77)'
+M = '2.7997(56)'
+name = '\Sigma_{c}(udc)'
+J = '3/2'
+[eMass.sigma32_3fl_usc]
+P = '2.64563(20)'
+M = '2.81815(20)'
+name = '\Xi_{c}(usc)'
+J = '3/2'
+[eMass.quadruplet_2fl_ssc]
+# Not sure why I did the lambda_c here...
+#P = '2.8561(60)'
+#M = '2.62811(19)'
+#name = '\Lambda_{c}'
+P = '2.7659(20)'
+M = '3.065(22)'
+name = '\Omega_{c}(ssc)'
+J = '3/2'
+[eMass.quadruplet_2fl_ccu]
+P = '3.621(4)'
+M = '3.621(4)'
+name = '\Xi_{cc}(ccu)'
+J = '3/2'
+[eMass.quadruplet_2fl_ccs]
+P = ''
+M = ''
+name = '\Omega_{cc}(ccs)'
+J = '3/2'
+[eMass.quadruplet_1fl_ccc]
+P = ''
+M = ''
+name = '\Omega_{ccc}(ccc)'
+J = '3/2'
+
+
+[mAve]
+# the ones we actually want to plot
+anaLab = ['sigma12_3fl_udc', 'sigma12_3fl_usc', 'doublet_2fl_ssc', 'doublet_2fl_ccu', 'doublet_2fl_ccs', 'lambda_3fl_udc', 'lambda_3fl_usc']
+       #'sigma32_3fl_udc', 'sigma32_3fl_usc', 'quadruplet_2fl_ssc', 'quadruplet_2fl_ccu', 'quadruplet_2fl_ccs', 'quadruplet_1fl_ccc']
+# Formatted like this for gvar
+# spatial lattice spacing in fm
+as = '0.11208(31)'
+# anisotropy
+xi = '3.453(6)'
+
+anaDir='output'
+
+# spin 1/2
+[mAve.doublet_2fl_uud]
+# Dir and file for the positive parity
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/doublet_2fl_uud_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+# Similarly for negative parity
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/doublet_2fl_uud_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+# and where in the plot (leftmost = 0)
+order = 0
+[mAve.doublet_2fl_uus]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/doublet_2fl_uus_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/doublet_2fl_uus_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 1
+[mAve.sigma12_3fl_udc]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/sigma12_3fl_udc_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/sigma12_3fl_udc_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 4
+[mAve.sigma12_3fl_usc]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/sigma12_3fl_usc_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/sigma12_3fl_usc_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 6
+[mAve.doublet_2fl_ssu]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/doublet_2fl_ssu_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/doublet_2fl_ssu_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 2
+[mAve.doublet_2fl_ssc]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/doublet_2fl_ssc_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/doublet_2fl_ssc_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 7
+[mAve.doublet_2fl_ccu]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/doublet_2fl_ccu_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/doublet_2fl_ccu_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 8
+[mAve.doublet_2fl_ccs]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/doublet_2fl_ccs_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/doublet_2fl_ccs_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 9
+[mAve.lambda_3fl_udc]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/lambda_3fl_udc_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/lambda_3fl_udc_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 3
+[mAve.lambda_3fl_usc]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/lambda_3fl_usc_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/lambda_3fl_usc_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 5
+# Spin 3/2
+[mAve.sigma32_3fl_udc]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/sigma32_3fl_udc_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/sigma32_3fl_udc_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 10
+[mAve.sigma32_3fl_usc]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/sigma32_3fl_usc_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/sigma32_3fl_usc_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 11
+[mAve.quadruplet_2fl_ssc]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/quadruplet_2fl_ssc_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/quadruplet_2fl_ssc_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 12
+[mAve.quadruplet_2fl_ccu]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/quadruplet_2fl_ccu_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/quadruplet_2fl_ccu_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 13
+[mAve.quadruplet_2fl_ccs]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/quadruplet_2fl_ccs_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/quadruplet_2fl_ccs_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 14
+[mAve.quadruplet_1fl_ccc]
+pDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/quadruplet_1fl_ccc_128x32'
+pFile = 'fit_AICP_AIC_Aved.gvar'
+mDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/quadruplet_1fl_ccc_128x32'
+mFile = 'fit_AICP_AIC_Aved.gvar'
+order = 15

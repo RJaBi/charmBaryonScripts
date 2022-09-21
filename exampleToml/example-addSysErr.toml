@@ -1,0 +1,70 @@
+#TOML MADE USING https://toml-online-parser.ovonick.com/
+
+norm = 'EP0'
+
+# massCSV = 'example-massChoices.csv'
+anaDir = 'output'
+
+[modelAverages]
+mALabels = ['sigma12_3fl_uds128', 'sigma12_3fl_uds64', 'sigma12_3fl_uds56', 'sigma12_3fl_uds48', 'sigma12_3fl_uds40', 'sigma12_3fl_uds36', 'sigma12_3fl_uds28']
+anaDir='/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/'
+
+allFTypes = ['AIC', 'pVal', 'AICP_AIC', 'AICP_pVal']
+
+#Sigma sigma12_3fl_uds
+[modelAverages.sigma12_3fl_uds128]
+Nt = 128
+anaDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/'
+operator = 'sigma12_3fl_uds'
+fTypes = ['all']
+EPMethod = 'AIC'
+EMMethod = 'pVal'
+Hadron = '$\Sigma$'
+[modelAverages.sigma12_3fl_uds64]
+Nt = 64
+anaDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/'
+operator = 'sigma12_3fl_uds'
+fTypes = ['all']
+EPMethod = 'AIC'
+EMMethod = 'pVal'
+Hadron = '\Sigma$'
+[modelAverages.sigma12_3fl_uds56]
+Nt = 56
+anaDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/'
+operator = 'sigma12_3fl_uds'
+fTypes = ['all']
+EPMethod = 'AIC'
+EMMethod = 'pVal'
+Hadron = '\Sigma$'
+[modelAverages.sigma12_3fl_uds48]
+Nt = 48
+anaDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/'
+operator = 'sigma12_3fl_uds'
+fTypes = ['all']
+EPMethod = 'AIC'
+EMMethod = 'pVal'
+Hadron = '\Sigma$'
+[modelAverages.sigma12_3fl_uds40]
+Nt = 40
+anaDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/'
+operator = 'sigma12_3fl_uds'
+fTypes = ['all']
+EPMethod = 'AIC'
+EMMethod = 'pVal'
+Hadron = '\Sigma$'
+[modelAverages.sigma12_3fl_uds36]
+Nt = 36
+anaDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/'
+operator = 'sigma12_3fl_uds'
+fTypes = ['all']
+EPMethod = 'AIC'
+EMMethod = 'pVal'
+Hadron = '\Sigma$'
+[modelAverages.sigma12_3fl_uds28]
+Nt = 28
+anaDir = '/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/'
+operator = 'sigma12_3fl_uds'
+fTypes = ['all']
+EPMethod = 'pVal'
+EMMethod = 'pVal'
+Hadron = '\Sigma$'

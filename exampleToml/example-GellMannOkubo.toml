@@ -1,0 +1,124 @@
+#TOML MADE USING https://toml-online-parser.ovonick.com/
+
+norm = 'EP0'
+yLim = ['None', 'None']  # chooses auto if not present
+
+[eMass]
+# Physical masses of particles in GeV
+# Taken from particle data group
+# Averaged over charge combinations
+# See 12/04/2022
+unit = 'GeV'
+# spin 1/2
+[eMass.doublet_2fl_uud]
+# Formatted like this for gvar
+P = '0.9395641(6)'
+M = '1.530(15)'
+name = 'N'
+J = '1/2'
+[eMass.doublet_2fl_uus]
+P = '1.1893(7)'
+M = '1.620(30)'
+name = '\Sigma'
+J = '1/2'
+[eMass.sigma12_3fl_udc]
+P = '2.45354(15)'
+M = '2.7997(56)'
+name = '\Sigma_{c}'
+J = '1/2'
+[eMass.sigma12_3fl_usc]
+P = '2.57845(35)'
+M = ''
+name = '\Xi_{c}^{\prime}'
+J = '1/2'
+[eMass.doublet_2fl_ssu]
+P = '1.31828(11)'
+M = '1.690(10)'
+name = '\Xi'
+J = '1/2'
+[eMass.doublet_2fl_ssc]
+P = '2.6952(17)'
+M = '3.065(22)'
+name = '\Omega_{c}'
+J = '1/2'
+[eMass.doublet_2fl_ccu]
+P = '3.6216(4)'
+M = ''
+name = '\Xi_{cc}'
+J = '1/2'
+[eMass.doublet_2fl_ccs]
+P = ''
+M = ''
+name = '\Omega_{cc}'
+J = '1/2'
+[eMass.lambda_3fl_udc]
+P = '2.2846(14)'
+M = '2.59225(28)'
+name = '\Lambda_{c}'
+J = '1/2'
+[eMass.lambda_3fl_usc]
+P = '2.46907(18)'
+M = '2.79290(35)'
+name = '\Xi_{c}'
+J = '1/2'
+# Spin 3/2
+[eMass.sigma32_3fl_udc]
+P = '2.51813(77)'
+M = '2.7997(56)'
+name = '\Sigma_{c}'
+J = '3/2'
+[eMass.sigma32_3fl_usc]
+P = '2.64563(20)'
+M = '2.81815(20)'
+name = '\Xi_{c}'
+J = '3/2'
+[eMass.quadruplet_2fl_ssc]
+# Not sure why I did the lambda_c here...
+#P = '2.8561(60)'
+#M = '2.62811(19)'
+#name = '\Lambda_{c}'
+P = '2.7659(20)'
+M = '3.065(22)'
+name = '\Omega_{c}'
+J = '3/2'
+[eMass.quadruplet_2fl_ccu]
+P = '3.621(4)'
+M = '3.621(4)'
+name = '\Xi_{cc}'
+J = '3/2'
+[eMass.quadruplet_2fl_ccs]
+P = ''
+M = ''
+name = '\Omega_{cc}'
+J = '3/2'
+[eMass.quadruplet_1fl_ccc]
+P = ''
+M = ''
+name = '\Omega_{ccc}'
+J = '3/2'
+[eMass.quadruplet_2fl_uud]
+P = '1.232(2)'  # Breit-Wigner Masses
+M = '1.710(10)'
+name = '\Delta'
+J = '3/2'
+
+[latMass]
+# Matched set of lists of y value and x-value and label, and the kappa 
+#mALabels = [['128', '64', '56', '48', '40', '36', '32', '24', '28', '20', '16']]
+NT = ['128', '64', '56', '48', '40', '36', '28',]
+temperatures = [0.289, 0.578, 0.661, 0.771, 0.925, 1.028, 1.322]
+anaName = ['lc16', 'lc17']
+
+
+# Formatted like this for gvar
+# spatial lattice spacing in fm
+as = '0.11208(31)'
+# anisotropy
+xi = '3.453(6)'
+
+# T_c in Gev. 
+T_c = '0.162(1)'
+
+anaDir='/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/'
+
+massCSV='/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/massChoices_sysErr.csv'

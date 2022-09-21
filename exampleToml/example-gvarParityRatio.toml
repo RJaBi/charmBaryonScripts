@@ -1,0 +1,576 @@
+[cfuns]
+cfLabels = [ "doublet_2fl_uud_128x32s0", "doublet_2fl_uud_128x32s1", "doublet_2fl_uud_128x32s2", "doublet_2fl_uud_128x32s3", "doublet_2fl_uud_128x32s4", "doublet_2fl_uud_128x32s5", "doublet_2fl_uud_128x32s6", "doublet_2fl_uud_128x32s7", "doublet_2fl_uud_64x32s0", "doublet_2fl_uud_64x32s1", "doublet_2fl_uud_64x32s2", "doublet_2fl_uud_64x32s3", "doublet_2fl_uud_64x32s4", "doublet_2fl_uud_64x32s5", "doublet_2fl_uud_64x32s6", "doublet_2fl_uud_64x32s7", "doublet_2fl_uud_56x32s0", "doublet_2fl_uud_56x32s1", "doublet_2fl_uud_56x32s2", "doublet_2fl_uud_56x32s3", "doublet_2fl_uud_56x32s4", "doublet_2fl_uud_56x32s5", "doublet_2fl_uud_56x32s6", "doublet_2fl_uud_56x32s7", "doublet_2fl_uud_48x32s0", "doublet_2fl_uud_48x32s1", "doublet_2fl_uud_48x32s2", "doublet_2fl_uud_48x32s3", "doublet_2fl_uud_48x32s4", "doublet_2fl_uud_48x32s5", "doublet_2fl_uud_48x32s6", "doublet_2fl_uud_48x32s7", "doublet_2fl_uud_40x32s0", "doublet_2fl_uud_40x32s1", "doublet_2fl_uud_40x32s2", "doublet_2fl_uud_40x32s3", "doublet_2fl_uud_40x32s4", "doublet_2fl_uud_40x32s5", "doublet_2fl_uud_40x32s6", "doublet_2fl_uud_40x32s7", "doublet_2fl_uud_36x32s0", "doublet_2fl_uud_36x32s1", "doublet_2fl_uud_36x32s2", "doublet_2fl_uud_36x32s3", "doublet_2fl_uud_36x32s4", "doublet_2fl_uud_36x32s5", "doublet_2fl_uud_36x32s6", "doublet_2fl_uud_36x32s7", "doublet_2fl_uud_32x32s0", "doublet_2fl_uud_32x32s1", "doublet_2fl_uud_32x32s2", "doublet_2fl_uud_32x32s3", "doublet_2fl_uud_32x32s4", "doublet_2fl_uud_32x32s5", "doublet_2fl_uud_32x32s6", "doublet_2fl_uud_32x32s7", "doublet_2fl_uud_28x32s0", "doublet_2fl_uud_28x32s1", "doublet_2fl_uud_28x32s2", "doublet_2fl_uud_28x32s3", "doublet_2fl_uud_28x32s4", "doublet_2fl_uud_28x32s5", "doublet_2fl_uud_28x32s6", "doublet_2fl_uud_28x32s7", "doublet_2fl_uud_24x32s0", "doublet_2fl_uud_24x32s1", "doublet_2fl_uud_24x32s2", "doublet_2fl_uud_24x32s3", "doublet_2fl_uud_24x32s4", "doublet_2fl_uud_24x32s5", "doublet_2fl_uud_24x32s6", "doublet_2fl_uud_24x32s7", "doublet_2fl_uud_20x32s0", "doublet_2fl_uud_20x32s1", "doublet_2fl_uud_20x32s2", "doublet_2fl_uud_20x32s3", "doublet_2fl_uud_20x32s4", "doublet_2fl_uud_20x32s5", "doublet_2fl_uud_20x32s6", "doublet_2fl_uud_20x32s7", "doublet_2fl_uud_16x32s0", "doublet_2fl_uud_16x32s1", "doublet_2fl_uud_16x32s2", "doublet_2fl_uud_16x32s3", "doublet_2fl_uud_16x32s4", "doublet_2fl_uud_16x32s5", "doublet_2fl_uud_16x32s6", "doublet_2fl_uud_16x32s7",]
+hadronType = "baryon"
+norm = "srcAve"
+cfSkip = [ "STRINGNOTINNAME",]
+cfCut = 50
+
+[analysis]
+#figText = [ "$N$", "$\\Sigma$", "$\\Sigma_c$", "$\\Xi^\\prime_c$", "$\\Omega_c$", "$\\Xi_{cc}$", "$\\Omega_{cc}$", "$\\Omega_{ccc}$",]
+figText = ["$N$"]
+
+#figText = [ "$N(uud)$", "$\\Sigma(uus)$", "$\\Sigma_c(udc)$", "$\\Xi_{c}^{\\prime}(usc)$", "$\\Xi(dss)$", "$\\Omega_{c}(ssc)$", "$\\Xi_{cc}(uud)$", "$\\Omega_{cc}(ccs)$", "$\\Lambda_{c}(udc)$", "$\\Xi_{c}(usc)$",]
+#figTextYPos = [ 0.05, 0.09, 0.20, 0.24, 0.145, 0.30, 0.67, 0.72, 0.38, 0.43 ]
+figTextYPos = [ 0.05 ]
+Tpc = ['166.7(2.5)']
+TpcScale = 166.7
+TpcLabels = [ '$\left\langle \Psi \Psi \right\rangle_{R}$']
+
+numAnalyses = [ 6, 2,]
+fitFunc = "AexpEEFit"
+fitMin = 1
+fitMax = 200
+covFit = true
+redoFits = false
+twoSided = true
+anaDir = "output"
+massdt = 2
+effExLim = [ "None", "None",]
+effEyLim = [ 0.2, 1.2 ]
+GxLim = [ 0, 21,]
+GyLim = [ 0.0008, 1.4,]
+#EFitLim = [ -0.05, 0.5,]
+EFitLim = [ -0.2, 1.5,]
+src_t0 = 0
+effEMethod = "centre"
+delta = [ 0.1, 0.3, 0.5,]
+WMin = 0
+WMax = 1.0
+WNum = 100
+RxLim = [ "None", "None",]
+RyLim = [ 0, 1,]
+#RyLim = [ -1, 0,]
+RCurves = [ 4, 8]
+#RXPoints = [ 0.289, 0.579, 0.661, 0.771, 0.925, 1.028, 1.157, 1.322, 1.542, 1.851, 2.341,]
+RXPoints = [ 47.50, 94.99, 108.56, 126.65, 151.99, 168.87, 189.98, 217.12, 303.97, 353.31, 379.96 ]
+symMathLabels = [ "doublet_2fl_uud_128x32", "doublet_2fl_uud_64x32", "doublet_2fl_uud_56x32", "doublet_2fl_uud_48x32", "doublet_2fl_uud_40x32", "doublet_2fl_uud_36x32", "doublet_2fl_uud_32x32", "doublet_2fl_uud_28x32", "doublet_2fl_uud_24x32", "doublet_2fl_uud_20x32", "doublet_2fl_uud_16x32", "F_doublet_2fl_uud_128x32", "F_doublet_2fl_uud_64x32", "F_doublet_2fl_uud_56x32", "F_doublet_2fl_uud_48x32", "F_doublet_2fl_uud_40x32", "F_doublet_2fl_uud_36x32", "F_doublet_2fl_uud_32x32", "F_doublet_2fl_uud_28x32", "F_doublet_2fl_uud_24x32", "F_doublet_2fl_uud_20x32", "F_doublet_2fl_uud_16x32", "Rdoublet_2fl_uud_128x32", "Rdoublet_2fl_uud_64x32", "Rdoublet_2fl_uud_56x32", "Rdoublet_2fl_uud_48x32", "Rdoublet_2fl_uud_40x32", "Rdoublet_2fl_uud_36x32", "Rdoublet_2fl_uud_32x32", "Rdoublet_2fl_uud_28x32", "Rdoublet_2fl_uud_24x32", "Rdoublet_2fl_uud_20x32", "Rdoublet_2fl_uud_16x32",]
+symMathMaths = [ "M:doublet_2fl_uud_128x32s0,doublet_2fl_uud_128x32s1,doublet_2fl_uud_128x32s2,doublet_2fl_uud_128x32s3,doublet_2fl_uud_128x32s4,doublet_2fl_uud_128x32s5,doublet_2fl_uud_128x32s6,doublet_2fl_uud_128x32s7:(doublet_2fl_uud_128x32s0+doublet_2fl_uud_128x32s1+doublet_2fl_uud_128x32s2+doublet_2fl_uud_128x32s3+doublet_2fl_uud_128x32s4+doublet_2fl_uud_128x32s5+doublet_2fl_uud_128x32s6+doublet_2fl_uud_128x32s7)/8", "M:doublet_2fl_uud_64x32s0,doublet_2fl_uud_64x32s1,doublet_2fl_uud_64x32s2,doublet_2fl_uud_64x32s3,doublet_2fl_uud_64x32s4,doublet_2fl_uud_64x32s5,doublet_2fl_uud_64x32s6,doublet_2fl_uud_64x32s7:(doublet_2fl_uud_64x32s0+doublet_2fl_uud_64x32s1+doublet_2fl_uud_64x32s2+doublet_2fl_uud_64x32s3+doublet_2fl_uud_64x32s4+doublet_2fl_uud_64x32s5+doublet_2fl_uud_64x32s6+doublet_2fl_uud_64x32s7)/8", "M:doublet_2fl_uud_56x32s0,doublet_2fl_uud_56x32s1,doublet_2fl_uud_56x32s2,doublet_2fl_uud_56x32s3,doublet_2fl_uud_56x32s4,doublet_2fl_uud_56x32s5,doublet_2fl_uud_56x32s6,doublet_2fl_uud_56x32s7:(doublet_2fl_uud_56x32s0+doublet_2fl_uud_56x32s1+doublet_2fl_uud_56x32s2+doublet_2fl_uud_56x32s3+doublet_2fl_uud_56x32s4+doublet_2fl_uud_56x32s5+doublet_2fl_uud_56x32s6+doublet_2fl_uud_56x32s7)/8", "M:doublet_2fl_uud_48x32s0,doublet_2fl_uud_48x32s1,doublet_2fl_uud_48x32s2,doublet_2fl_uud_48x32s3,doublet_2fl_uud_48x32s4,doublet_2fl_uud_48x32s5,doublet_2fl_uud_48x32s6,doublet_2fl_uud_48x32s7:(doublet_2fl_uud_48x32s0+doublet_2fl_uud_48x32s1+doublet_2fl_uud_48x32s2+doublet_2fl_uud_48x32s3+doublet_2fl_uud_48x32s4+doublet_2fl_uud_48x32s5+doublet_2fl_uud_48x32s6+doublet_2fl_uud_48x32s7)/8", "M:doublet_2fl_uud_40x32s0,doublet_2fl_uud_40x32s1,doublet_2fl_uud_40x32s2,doublet_2fl_uud_40x32s3,doublet_2fl_uud_40x32s4,doublet_2fl_uud_40x32s5,doublet_2fl_uud_40x32s6,doublet_2fl_uud_40x32s7:(doublet_2fl_uud_40x32s0+doublet_2fl_uud_40x32s1+doublet_2fl_uud_40x32s2+doublet_2fl_uud_40x32s3+doublet_2fl_uud_40x32s4+doublet_2fl_uud_40x32s5+doublet_2fl_uud_40x32s6+doublet_2fl_uud_40x32s7)/8", "M:doublet_2fl_uud_36x32s0,doublet_2fl_uud_36x32s1,doublet_2fl_uud_36x32s2,doublet_2fl_uud_36x32s3,doublet_2fl_uud_36x32s4,doublet_2fl_uud_36x32s5,doublet_2fl_uud_36x32s6,doublet_2fl_uud_36x32s7:(doublet_2fl_uud_36x32s0+doublet_2fl_uud_36x32s1+doublet_2fl_uud_36x32s2+doublet_2fl_uud_36x32s3+doublet_2fl_uud_36x32s4+doublet_2fl_uud_36x32s5+doublet_2fl_uud_36x32s6+doublet_2fl_uud_36x32s7)/8", "M:doublet_2fl_uud_32x32s0,doublet_2fl_uud_32x32s1,doublet_2fl_uud_32x32s2,doublet_2fl_uud_32x32s3,doublet_2fl_uud_32x32s4,doublet_2fl_uud_32x32s5,doublet_2fl_uud_32x32s6,doublet_2fl_uud_32x32s7:(doublet_2fl_uud_32x32s0+doublet_2fl_uud_32x32s1+doublet_2fl_uud_32x32s2+doublet_2fl_uud_32x32s3+doublet_2fl_uud_32x32s4+doublet_2fl_uud_32x32s5+doublet_2fl_uud_32x32s6+doublet_2fl_uud_32x32s7)/8", "M:doublet_2fl_uud_28x32s0,doublet_2fl_uud_28x32s1,doublet_2fl_uud_28x32s2,doublet_2fl_uud_28x32s3,doublet_2fl_uud_28x32s4,doublet_2fl_uud_28x32s5,doublet_2fl_uud_28x32s6,doublet_2fl_uud_28x32s7:(doublet_2fl_uud_28x32s0+doublet_2fl_uud_28x32s1+doublet_2fl_uud_28x32s2+doublet_2fl_uud_28x32s3+doublet_2fl_uud_28x32s4+doublet_2fl_uud_28x32s5+doublet_2fl_uud_28x32s6+doublet_2fl_uud_28x32s7)/8", "M:doublet_2fl_uud_24x32s0,doublet_2fl_uud_24x32s1,doublet_2fl_uud_24x32s2,doublet_2fl_uud_24x32s3,doublet_2fl_uud_24x32s4,doublet_2fl_uud_24x32s5,doublet_2fl_uud_24x32s6,doublet_2fl_uud_24x32s7:(doublet_2fl_uud_24x32s0+doublet_2fl_uud_24x32s1+doublet_2fl_uud_24x32s2+doublet_2fl_uud_24x32s3+doublet_2fl_uud_24x32s4+doublet_2fl_uud_24x32s5+doublet_2fl_uud_24x32s6+doublet_2fl_uud_24x32s7)/8", "M:doublet_2fl_uud_20x32s0,doublet_2fl_uud_20x32s1,doublet_2fl_uud_20x32s2,doublet_2fl_uud_20x32s3,doublet_2fl_uud_20x32s4,doublet_2fl_uud_20x32s5,doublet_2fl_uud_20x32s6,doublet_2fl_uud_20x32s7:(doublet_2fl_uud_20x32s0+doublet_2fl_uud_20x32s1+doublet_2fl_uud_20x32s2+doublet_2fl_uud_20x32s3+doublet_2fl_uud_20x32s4+doublet_2fl_uud_20x32s5+doublet_2fl_uud_20x32s6+doublet_2fl_uud_20x32s7)/8", "M:doublet_2fl_uud_16x32s0,doublet_2fl_uud_16x32s1,doublet_2fl_uud_16x32s2,doublet_2fl_uud_16x32s3,doublet_2fl_uud_16x32s4,doublet_2fl_uud_16x32s5,doublet_2fl_uud_16x32s6,doublet_2fl_uud_16x32s7:(doublet_2fl_uud_16x32s0+doublet_2fl_uud_16x32s1+doublet_2fl_uud_16x32s2+doublet_2fl_uud_16x32s3+doublet_2fl_uud_16x32s4+doublet_2fl_uud_16x32s5+doublet_2fl_uud_16x32s6+doublet_2fl_uud_16x32s7)/8", "flip:doublet_2fl_uud_128x32:doublet_2fl_uud_128x32", "flip:doublet_2fl_uud_64x32:doublet_2fl_uud_64x32", "flip:doublet_2fl_uud_56x32:doublet_2fl_uud_56x32", "flip:doublet_2fl_uud_48x32:doublet_2fl_uud_48x32", "flip:doublet_2fl_uud_40x32:doublet_2fl_uud_40x32", "flip:doublet_2fl_uud_36x32:doublet_2fl_uud_36x32", "flip:doublet_2fl_uud_32x32:doublet_2fl_uud_32x32", "flip:doublet_2fl_uud_28x32:doublet_2fl_uud_28x32", "flip:doublet_2fl_uud_24x32:doublet_2fl_uud_24x32", "flip:doublet_2fl_uud_20x32:doublet_2fl_uud_20x32", "flip:doublet_2fl_uud_16x32:doublet_2fl_uud_16x32", "M:doublet_2fl_uud_128x32,F_doublet_2fl_uud_128x32:-(-F_doublet_2fl_uud_128x32+doublet_2fl_uud_128x32)/(doublet_2fl_uud_128x32+F_doublet_2fl_uud_128x32)", "M:doublet_2fl_uud_64x32,F_doublet_2fl_uud_64x32:-(-F_doublet_2fl_uud_64x32+doublet_2fl_uud_64x32)/(doublet_2fl_uud_64x32+F_doublet_2fl_uud_64x32)", "M:doublet_2fl_uud_56x32,F_doublet_2fl_uud_56x32:-(-F_doublet_2fl_uud_56x32+doublet_2fl_uud_56x32)/(doublet_2fl_uud_56x32+F_doublet_2fl_uud_56x32)", "M:F_doublet_2fl_uud_48x32,doublet_2fl_uud_48x32:-(-F_doublet_2fl_uud_48x32+doublet_2fl_uud_48x32)/(F_doublet_2fl_uud_48x32+doublet_2fl_uud_48x32)", "M:F_doublet_2fl_uud_40x32,doublet_2fl_uud_40x32:-(-F_doublet_2fl_uud_40x32+doublet_2fl_uud_40x32)/(F_doublet_2fl_uud_40x32+doublet_2fl_uud_40x32)", "M:doublet_2fl_uud_36x32,F_doublet_2fl_uud_36x32:-(-F_doublet_2fl_uud_36x32+doublet_2fl_uud_36x32)/(doublet_2fl_uud_36x32+F_doublet_2fl_uud_36x32)", "M:doublet_2fl_uud_32x32,F_doublet_2fl_uud_32x32:-(-F_doublet_2fl_uud_32x32+doublet_2fl_uud_32x32)/(doublet_2fl_uud_32x32+F_doublet_2fl_uud_32x32)", "M:F_doublet_2fl_uud_28x32,doublet_2fl_uud_28x32:-(-F_doublet_2fl_uud_28x32+doublet_2fl_uud_28x32)/(F_doublet_2fl_uud_28x32+doublet_2fl_uud_28x32)", "M:F_doublet_2fl_uud_24x32,doublet_2fl_uud_24x32:-(-F_doublet_2fl_uud_24x32+doublet_2fl_uud_24x32)/(F_doublet_2fl_uud_24x32+doublet_2fl_uud_24x32)", "M:doublet_2fl_uud_20x32,F_doublet_2fl_uud_20x32:-(-F_doublet_2fl_uud_20x32+doublet_2fl_uud_20x32)/(doublet_2fl_uud_20x32+F_doublet_2fl_uud_20x32)", "M:F_doublet_2fl_uud_16x32,doublet_2fl_uud_16x32:-(-F_doublet_2fl_uud_16x32+doublet_2fl_uud_16x32)/(F_doublet_2fl_uud_16x32+doublet_2fl_uud_16x32)",]
+labelsToAnalyse = [[ "Rdoublet_2fl_uud_128x32", "Rdoublet_2fl_uud_64x32", "Rdoublet_2fl_uud_56x32", "Rdoublet_2fl_uud_48x32", "Rdoublet_2fl_uud_40x32", "Rdoublet_2fl_uud_36x32", "Rdoublet_2fl_uud_32x32", "Rdoublet_2fl_uud_28x32", "Rdoublet_2fl_uud_24x32", "Rdoublet_2fl_uud_20x32", "Rdoublet_2fl_uud_16x32"],]
+
+[cfuns.doublet_2fl_uud_128x32s0]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/data/doublet.2fl_uud/128x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/lists/lists/doublet.2fl.uud-s0.list"
+latt = 128
+ext = ""
+
+[cfuns.doublet_2fl_uud_128x32s1]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/data/doublet.2fl_uud/128x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/lists/lists/doublet.2fl.uud-s1.list"
+latt = 128
+ext = ""
+
+[cfuns.doublet_2fl_uud_128x32s2]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/data/doublet.2fl_uud/128x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/lists/lists/doublet.2fl.uud-s2.list"
+latt = 128
+ext = ""
+
+[cfuns.doublet_2fl_uud_128x32s3]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/data/doublet.2fl_uud/128x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/lists/lists/doublet.2fl.uud-s3.list"
+latt = 128
+ext = ""
+
+[cfuns.doublet_2fl_uud_128x32s4]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/data/doublet.2fl_uud/128x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/lists/lists/doublet.2fl.uud-s4.list"
+latt = 128
+ext = ""
+
+[cfuns.doublet_2fl_uud_128x32s5]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/data/doublet.2fl_uud/128x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/lists/lists/doublet.2fl.uud-s5.list"
+latt = 128
+ext = ""
+
+[cfuns.doublet_2fl_uud_128x32s6]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/data/doublet.2fl_uud/128x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/lists/lists/doublet.2fl.uud-s6.list"
+latt = 128
+ext = ""
+
+[cfuns.doublet_2fl_uud_128x32s7]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/data/doublet.2fl_uud/128x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/128x32/lists/lists/doublet.2fl.uud-s7.list"
+latt = 128
+ext = ""
+
+[cfuns.doublet_2fl_uud_64x32s0]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/data/doublet.2fl_uud/64x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/lists/lists/doublet.2fl.uud-s0.list"
+latt = 64
+ext = ""
+
+[cfuns.doublet_2fl_uud_64x32s1]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/data/doublet.2fl_uud/64x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/lists/lists/doublet.2fl.uud-s1.list"
+latt = 64
+ext = ""
+
+[cfuns.doublet_2fl_uud_64x32s2]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/data/doublet.2fl_uud/64x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/lists/lists/doublet.2fl.uud-s2.list"
+latt = 64
+ext = ""
+
+[cfuns.doublet_2fl_uud_64x32s3]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/data/doublet.2fl_uud/64x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/lists/lists/doublet.2fl.uud-s3.list"
+latt = 64
+ext = ""
+
+[cfuns.doublet_2fl_uud_64x32s4]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/data/doublet.2fl_uud/64x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/lists/lists/doublet.2fl.uud-s4.list"
+latt = 64
+ext = ""
+
+[cfuns.doublet_2fl_uud_64x32s5]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/data/doublet.2fl_uud/64x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/lists/lists/doublet.2fl.uud-s5.list"
+latt = 64
+ext = ""
+
+[cfuns.doublet_2fl_uud_64x32s6]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/data/doublet.2fl_uud/64x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/lists/lists/doublet.2fl.uud-s6.list"
+latt = 64
+ext = ""
+
+[cfuns.doublet_2fl_uud_64x32s7]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/data/doublet.2fl_uud/64x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/64x32/lists/lists/doublet.2fl.uud-s7.list"
+latt = 64
+ext = ""
+
+[cfuns.doublet_2fl_uud_56x32s0]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/data/doublet.2fl_uud/56x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/lists/lists/doublet.2fl.uud-s0.list"
+latt = 56
+ext = ""
+
+[cfuns.doublet_2fl_uud_56x32s1]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/data/doublet.2fl_uud/56x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/lists/lists/doublet.2fl.uud-s1.list"
+latt = 56
+ext = ""
+
+[cfuns.doublet_2fl_uud_56x32s2]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/data/doublet.2fl_uud/56x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/lists/lists/doublet.2fl.uud-s2.list"
+latt = 56
+ext = ""
+
+[cfuns.doublet_2fl_uud_56x32s3]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/data/doublet.2fl_uud/56x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/lists/lists/doublet.2fl.uud-s3.list"
+latt = 56
+ext = ""
+
+[cfuns.doublet_2fl_uud_56x32s4]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/data/doublet.2fl_uud/56x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/lists/lists/doublet.2fl.uud-s4.list"
+latt = 56
+ext = ""
+
+[cfuns.doublet_2fl_uud_56x32s5]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/data/doublet.2fl_uud/56x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/lists/lists/doublet.2fl.uud-s5.list"
+latt = 56
+ext = ""
+
+[cfuns.doublet_2fl_uud_56x32s6]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/data/doublet.2fl_uud/56x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/lists/lists/doublet.2fl.uud-s6.list"
+latt = 56
+ext = ""
+
+[cfuns.doublet_2fl_uud_56x32s7]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/data/doublet.2fl_uud/56x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/56x32/lists/lists/doublet.2fl.uud-s7.list"
+latt = 56
+ext = ""
+
+[cfuns.doublet_2fl_uud_48x32s0]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/data/doublet.2fl_uud/48x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/lists/lists/doublet.2fl.uud-s0.list"
+latt = 48
+ext = ""
+
+[cfuns.doublet_2fl_uud_48x32s1]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/data/doublet.2fl_uud/48x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/lists/lists/doublet.2fl.uud-s1.list"
+latt = 48
+ext = ""
+
+[cfuns.doublet_2fl_uud_48x32s2]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/data/doublet.2fl_uud/48x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/lists/lists/doublet.2fl.uud-s2.list"
+latt = 48
+ext = ""
+
+[cfuns.doublet_2fl_uud_48x32s3]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/data/doublet.2fl_uud/48x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/lists/lists/doublet.2fl.uud-s3.list"
+latt = 48
+ext = ""
+
+[cfuns.doublet_2fl_uud_48x32s4]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/data/doublet.2fl_uud/48x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/lists/lists/doublet.2fl.uud-s4.list"
+latt = 48
+ext = ""
+
+[cfuns.doublet_2fl_uud_48x32s5]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/data/doublet.2fl_uud/48x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/lists/lists/doublet.2fl.uud-s5.list"
+latt = 48
+ext = ""
+
+[cfuns.doublet_2fl_uud_48x32s6]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/data/doublet.2fl_uud/48x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/lists/lists/doublet.2fl.uud-s6.list"
+latt = 48
+ext = ""
+
+[cfuns.doublet_2fl_uud_48x32s7]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/data/doublet.2fl_uud/48x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/48x32/lists/lists/doublet.2fl.uud-s7.list"
+latt = 48
+ext = ""
+
+[cfuns.doublet_2fl_uud_40x32s0]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/data/doublet.2fl_uud/40x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/lists/lists/doublet.2fl.uud-s0.list"
+latt = 40
+ext = ""
+
+[cfuns.doublet_2fl_uud_40x32s1]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/data/doublet.2fl_uud/40x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/lists/lists/doublet.2fl.uud-s1.list"
+latt = 40
+ext = ""
+
+[cfuns.doublet_2fl_uud_40x32s2]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/data/doublet.2fl_uud/40x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/lists/lists/doublet.2fl.uud-s2.list"
+latt = 40
+ext = ""
+
+[cfuns.doublet_2fl_uud_40x32s3]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/data/doublet.2fl_uud/40x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/lists/lists/doublet.2fl.uud-s3.list"
+latt = 40
+ext = ""
+
+[cfuns.doublet_2fl_uud_40x32s4]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/data/doublet.2fl_uud/40x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/lists/lists/doublet.2fl.uud-s4.list"
+latt = 40
+ext = ""
+
+[cfuns.doublet_2fl_uud_40x32s5]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/data/doublet.2fl_uud/40x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/lists/lists/doublet.2fl.uud-s5.list"
+latt = 40
+ext = ""
+
+[cfuns.doublet_2fl_uud_40x32s6]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/data/doublet.2fl_uud/40x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/lists/lists/doublet.2fl.uud-s6.list"
+latt = 40
+ext = ""
+
+[cfuns.doublet_2fl_uud_40x32s7]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/data/doublet.2fl_uud/40x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/40x32/lists/lists/doublet.2fl.uud-s7.list"
+latt = 40
+ext = ""
+
+[cfuns.doublet_2fl_uud_36x32s0]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/data/doublet.2fl_uud/36x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/lists/lists/doublet.2fl.uud-s0.list"
+latt = 36
+ext = ""
+
+[cfuns.doublet_2fl_uud_36x32s1]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/data/doublet.2fl_uud/36x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/lists/lists/doublet.2fl.uud-s1.list"
+latt = 36
+ext = ""
+
+[cfuns.doublet_2fl_uud_36x32s2]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/data/doublet.2fl_uud/36x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/lists/lists/doublet.2fl.uud-s2.list"
+latt = 36
+ext = ""
+
+[cfuns.doublet_2fl_uud_36x32s3]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/data/doublet.2fl_uud/36x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/lists/lists/doublet.2fl.uud-s3.list"
+latt = 36
+ext = ""
+
+[cfuns.doublet_2fl_uud_36x32s4]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/data/doublet.2fl_uud/36x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/lists/lists/doublet.2fl.uud-s4.list"
+latt = 36
+ext = ""
+
+[cfuns.doublet_2fl_uud_36x32s5]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/data/doublet.2fl_uud/36x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/lists/lists/doublet.2fl.uud-s5.list"
+latt = 36
+ext = ""
+
+[cfuns.doublet_2fl_uud_36x32s6]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/data/doublet.2fl_uud/36x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/lists/lists/doublet.2fl.uud-s6.list"
+latt = 36
+ext = ""
+
+[cfuns.doublet_2fl_uud_36x32s7]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/data/doublet.2fl_uud/36x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/36x32/lists/lists/doublet.2fl.uud-s7.list"
+latt = 36
+ext = ""
+
+[cfuns.doublet_2fl_uud_32x32s0]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/data/doublet.2fl_uud/32x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/lists/lists/doublet.2fl.uud-s0.list"
+latt = 32
+ext = ""
+
+[cfuns.doublet_2fl_uud_32x32s1]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/data/doublet.2fl_uud/32x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/lists/lists/doublet.2fl.uud-s1.list"
+latt = 32
+ext = ""
+
+[cfuns.doublet_2fl_uud_32x32s2]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/data/doublet.2fl_uud/32x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/lists/lists/doublet.2fl.uud-s2.list"
+latt = 32
+ext = ""
+
+[cfuns.doublet_2fl_uud_32x32s3]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/data/doublet.2fl_uud/32x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/lists/lists/doublet.2fl.uud-s3.list"
+latt = 32
+ext = ""
+
+[cfuns.doublet_2fl_uud_32x32s4]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/data/doublet.2fl_uud/32x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/lists/lists/doublet.2fl.uud-s4.list"
+latt = 32
+ext = ""
+
+[cfuns.doublet_2fl_uud_32x32s5]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/data/doublet.2fl_uud/32x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/lists/lists/doublet.2fl.uud-s5.list"
+latt = 32
+ext = ""
+
+[cfuns.doublet_2fl_uud_32x32s6]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/data/doublet.2fl_uud/32x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/lists/lists/doublet.2fl.uud-s6.list"
+latt = 32
+ext = ""
+
+[cfuns.doublet_2fl_uud_32x32s7]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/data/doublet.2fl_uud/32x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/32x32/lists/lists/doublet.2fl.uud-s7.list"
+latt = 32
+ext = ""
+
+[cfuns.doublet_2fl_uud_28x32s0]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/data/doublet.2fl_uud/28x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/lists/lists/doublet.2fl.uud-s0.list"
+latt = 28
+ext = ""
+
+[cfuns.doublet_2fl_uud_28x32s1]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/data/doublet.2fl_uud/28x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/lists/lists/doublet.2fl.uud-s1.list"
+latt = 28
+ext = ""
+
+[cfuns.doublet_2fl_uud_28x32s2]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/data/doublet.2fl_uud/28x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/lists/lists/doublet.2fl.uud-s2.list"
+latt = 28
+ext = ""
+
+[cfuns.doublet_2fl_uud_28x32s3]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/data/doublet.2fl_uud/28x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/lists/lists/doublet.2fl.uud-s3.list"
+latt = 28
+ext = ""
+
+[cfuns.doublet_2fl_uud_28x32s4]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/data/doublet.2fl_uud/28x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/lists/lists/doublet.2fl.uud-s4.list"
+latt = 28
+ext = ""
+
+[cfuns.doublet_2fl_uud_28x32s5]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/data/doublet.2fl_uud/28x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/lists/lists/doublet.2fl.uud-s5.list"
+latt = 28
+ext = ""
+
+[cfuns.doublet_2fl_uud_28x32s6]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/data/doublet.2fl_uud/28x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/lists/lists/doublet.2fl.uud-s6.list"
+latt = 28
+ext = ""
+
+[cfuns.doublet_2fl_uud_28x32s7]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/data/doublet.2fl_uud/28x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/28x32/lists/lists/doublet.2fl.uud-s7.list"
+latt = 28
+ext = ""
+
+[cfuns.doublet_2fl_uud_24x32s0]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/data/doublet.2fl_uud/24x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/lists/lists/doublet.2fl.uud-s0.list"
+latt = 24
+ext = ""
+
+[cfuns.doublet_2fl_uud_24x32s1]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/data/doublet.2fl_uud/24x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/lists/lists/doublet.2fl.uud-s1.list"
+latt = 24
+ext = ""
+
+[cfuns.doublet_2fl_uud_24x32s2]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/data/doublet.2fl_uud/24x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/lists/lists/doublet.2fl.uud-s2.list"
+latt = 24
+ext = ""
+
+[cfuns.doublet_2fl_uud_24x32s3]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/data/doublet.2fl_uud/24x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/lists/lists/doublet.2fl.uud-s3.list"
+latt = 24
+ext = ""
+
+[cfuns.doublet_2fl_uud_24x32s4]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/data/doublet.2fl_uud/24x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/lists/lists/doublet.2fl.uud-s4.list"
+latt = 24
+ext = ""
+
+[cfuns.doublet_2fl_uud_24x32s5]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/data/doublet.2fl_uud/24x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/lists/lists/doublet.2fl.uud-s5.list"
+latt = 24
+ext = ""
+
+[cfuns.doublet_2fl_uud_24x32s6]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/data/doublet.2fl_uud/24x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/lists/lists/doublet.2fl.uud-s6.list"
+latt = 24
+ext = ""
+
+[cfuns.doublet_2fl_uud_24x32s7]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/data/doublet.2fl_uud/24x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/24x32/lists/lists/doublet.2fl.uud-s7.list"
+latt = 24
+ext = ""
+
+[cfuns.doublet_2fl_uud_20x32s0]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/data/doublet.2fl_uud/20x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/lists/lists/doublet.2fl.uud-s0.list"
+latt = 20
+ext = ""
+
+[cfuns.doublet_2fl_uud_20x32s1]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/data/doublet.2fl_uud/20x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/lists/lists/doublet.2fl.uud-s1.list"
+latt = 20
+ext = ""
+
+[cfuns.doublet_2fl_uud_20x32s2]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/data/doublet.2fl_uud/20x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/lists/lists/doublet.2fl.uud-s2.list"
+latt = 20
+ext = ""
+
+[cfuns.doublet_2fl_uud_20x32s3]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/data/doublet.2fl_uud/20x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/lists/lists/doublet.2fl.uud-s3.list"
+latt = 20
+ext = ""
+
+[cfuns.doublet_2fl_uud_20x32s4]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/data/doublet.2fl_uud/20x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/lists/lists/doublet.2fl.uud-s4.list"
+latt = 20
+ext = ""
+
+[cfuns.doublet_2fl_uud_20x32s5]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/data/doublet.2fl_uud/20x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/lists/lists/doublet.2fl.uud-s5.list"
+latt = 20
+ext = ""
+
+[cfuns.doublet_2fl_uud_20x32s6]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/data/doublet.2fl_uud/20x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/lists/lists/doublet.2fl.uud-s6.list"
+latt = 20
+ext = ""
+
+[cfuns.doublet_2fl_uud_20x32s7]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/data/doublet.2fl_uud/20x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/20x32/lists/lists/doublet.2fl.uud-s7.list"
+latt = 20
+ext = ""
+
+[cfuns.doublet_2fl_uud_16x32s0]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/data/doublet.2fl_uud/16x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/lists/lists/doublet.2fl.uud-s0.list"
+latt = 16
+ext = ""
+
+[cfuns.doublet_2fl_uud_16x32s1]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/data/doublet.2fl_uud/16x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/lists/lists/doublet.2fl.uud-s1.list"
+latt = 16
+ext = ""
+
+[cfuns.doublet_2fl_uud_16x32s2]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/data/doublet.2fl_uud/16x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/lists/lists/doublet.2fl.uud-s2.list"
+latt = 16
+ext = ""
+
+[cfuns.doublet_2fl_uud_16x32s3]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/data/doublet.2fl_uud/16x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/lists/lists/doublet.2fl.uud-s3.list"
+latt = 16
+ext = ""
+
+[cfuns.doublet_2fl_uud_16x32s4]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/data/doublet.2fl_uud/16x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/lists/lists/doublet.2fl.uud-s4.list"
+latt = 16
+ext = ""
+
+[cfuns.doublet_2fl_uud_16x32s5]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/data/doublet.2fl_uud/16x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/lists/lists/doublet.2fl.uud-s5.list"
+latt = 16
+ext = ""
+
+[cfuns.doublet_2fl_uud_16x32s6]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/data/doublet.2fl_uud/16x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/lists/lists/doublet.2fl.uud-s6.list"
+latt = 16
+ext = ""
+
+[cfuns.doublet_2fl_uud_16x32s7]
+cfDir = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/data/doublet.2fl_uud/16x32_ss/dat"
+cfList = "/home/ryan/Documents/2022/Gen2L/Hawk/Gen2L_Workspace/16x32/lists/lists/doublet.2fl.uud-s7.list"
+latt = 16
+ext = ""

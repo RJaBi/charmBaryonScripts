@@ -1,0 +1,164 @@
+[eMass]
+# Physical masses of particles in GeV
+# Taken from particle data group
+# Averaged over charge combinations
+# See 12/04/2022
+unit = 'GeV'
+# spin 1/2
+[eMass.doublet_2fl_uud]
+# Formatted like this for gvar
+P = '0.9395641(6)'
+M = '1.530(15)'
+name = 'N'
+J = '1/2'
+[eMass.doublet_2fl_uus]
+P = '1.1893(7)'
+M = '1.620(30)'
+name = '\Sigma'
+J = '1/2'
+[eMass.sigma12_3fl_udc]
+P = '2.45354(15)'
+M = '2.7997(56)'
+name = '\Sigma_{c}'
+J = '1/2'
+[eMass.sigma12_3fl_usc]
+P = '2.57845(35)'
+M = ''
+name = '\Xi_{c}^{\prime}'
+J = '1/2'
+[eMass.doublet_2fl_ssu]
+P = '1.31828(11)'
+M = '1.690(10)'
+name = '\Xi'
+J = '1/2'
+[eMass.doublet_2fl_ssc]
+P = '2.6952(17)'
+M = '3.065(22)'
+name = '\Omega_{c}'
+J = '1/2'
+[eMass.doublet_2fl_ccu]
+P = '3.6216(4)'
+M = ''
+name = '\Xi_{cc}'
+J = '1/2'
+[eMass.doublet_2fl_ccs]
+P = ''
+M = ''
+name = '\Omega_{cc}'
+J = '1/2'
+[eMass.lambda_3fl_udc]
+P = '2.2846(14)'
+M = '2.59225(28)'
+name = '\Lambda_{c}'
+J = '1/2'
+[eMass.lambda_3fl_usc]
+P = '2.46907(18)'
+M = '2.79290(35)'
+name = '\Xi_{c}'
+J = '1/2'
+# Spin 3/2
+[eMass.sigma32_3fl_udc]
+P = '2.51813(77)'
+M = '2.7997(56)'
+name = '\Sigma_{c}'
+J = '3/2'
+[eMass.sigma32_3fl_usc]
+P = '2.64563(20)'
+M = '2.81815(20)'
+name = '\Xi_{c}'
+J = '3/2'
+[eMass.quadruplet_2fl_ssc]
+# Not sure why I did the lambda_c here...
+#P = '2.8561(60)'
+#M = '2.62811(19)'
+#name = '\Lambda_{c}'
+P = '2.7659(20)'
+M = '3.065(22)'
+name = '\Omega_{c}'
+J = '3/2'
+[eMass.quadruplet_2fl_ccu]
+P = '3.621(4)'
+M = '3.621(4)'
+name = '\Xi_{cc}'
+J = '3/2'
+[eMass.quadruplet_2fl_ccs]
+P = ''
+M = ''
+name = '\Omega_{cc}'
+J = '3/2'
+[eMass.quadruplet_1fl_ccc]
+P = ''
+M = ''
+name = '\Omega_{ccc}'
+J = '3/2'
+
+
+[cfuns]
+
+cfLabels = [ 's0','s1', 's2','s3','s4','s5','s6','s7' ]
+#cfLabels = [ 's0' ]
+# Hadron type. meson or baryon. Effects correlator storage format
+hadronType = 'baryon'
+# normallising the correlator
+norm = 'labelSrcAve'
+
+cfSkip = [ 'Bn151', 'Bn152', 'Bn153', 'an258' ]
+cfCut = 20
+
+[cfuns.s0]
+#Where the correlators are located
+cfDir = '/home/ryan/Documents/2021/baryons/256x32/doublet.2fl.uud/'
+#A list of full filenames of the correlators
+#i.e. from find . -type f > list.list
+cfList = '/home/ryan/Documents/2021/baryons/256x32/lists/doublet.2fl.uud-s0.list'
+#number of lattice sites (1 indexed)
+latt = 256
+
+[cfuns.s1]
+cfDir = '/home/ryan/Documents/2021/baryons/256x32/doublet.2fl.uud/'
+cfList = '/home/ryan/Documents/2021/baryons/256x32/lists/doublet.2fl.uud-s1.list'
+latt = 256
+
+[cfuns.s2]
+cfDir = '/home/ryan/Documents/2021/baryons/256x32/doublet.2fl.uud/'
+cfList = '/home/ryan/Documents/2021/baryons/256x32/lists/doublet.2fl.uud-s2.list'
+latt = 256
+
+[cfuns.s3]
+cfDir = '/home/ryan/Documents/2021/baryons/256x32/doublet.2fl.uud/'
+cfList = '/home/ryan/Documents/2021/baryons/256x32/lists/doublet.2fl.uud-s3.list'
+latt = 256
+
+[cfuns.s4]
+cfDir = '/home/ryan/Documents/2021/baryons/256x32/doublet.2fl.uud/'
+cfList = '/home/ryan/Documents/2021/baryons/256x32/lists/doublet.2fl.uud-s4.list'
+latt = 256
+
+[cfuns.s5]
+cfDir = '/home/ryan/Documents/2021/baryons/256x32/doublet.2fl.uud/'
+cfList = '/home/ryan/Documents/2021/baryons/256x32/lists/doublet.2fl.uud-s5.list'
+latt = 256
+
+[cfuns.s6]
+cfDir = '/home/ryan/Documents/2021/baryons/256x32/doublet.2fl.uud/'
+cfList = '/home/ryan/Documents/2021/baryons/256x32/lists/doublet.2fl.uud-s6.list'
+latt = 256
+
+[cfuns.s7]
+cfDir = '/home/ryan/Documents/2021/baryons/256x32/doublet.2fl.uud/'
+cfList = '/home/ryan/Documents/2021/baryons/256x32/lists/doublet.2fl.uud-s7.list'
+latt = 256
+
+[analysis]
+symMathLabels = [ 'doublet_2fl_uud', 'F_doublet_2fl_uud' ]
+symMathMaths = [ 'M:s0,s1,s2,s3,s4,s5,s6,s7:(s0+s1+s2+s3+s4+s5+s6+s7)/8.0', 'flip:doublet_2fl_uud:F_doublet_2fl_uud' ]
+labelsToAnalyse = [ ['doublet_2fl_uud', 'F_doublet_2fl_uud'], ['F_doublet_2fl_uud', 'doublet_2fl_uud'], ['doublet_2fl_uud', 'doublet_2fl_uud'], ['F_doublet_2fl_uud', 'F_doublet_2fl_uud'] ]
+anaName = [ 'doublet_2fl_uud', 'sigma12_3fl_usc', 'sigma32_3fl_usc', 'doublet_2fl_uus']
+#anaDir='/home/ryan/Documents/GitHub/charmBaryonScripts/exampleToml/output/'
+anaDir='output'
+# For normallising
+src_t0 = 0
+#plotLayout
+# Nrows, #Ncol
+plotLayout = [2, 2]
+GxLim = [ 0 , 32 ]
