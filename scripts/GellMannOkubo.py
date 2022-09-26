@@ -162,22 +162,29 @@ def main(args: list):
                 # Calculate the quantities
                 thisNT_LHS16, thisNT_RHS16 = eqn16(masses)
                 # legend labels
-                LHSLab = '$0.5('+f'{hadrons[0]} + {hadrons[1]}' + ')$'
+                LHSLab = '$('+f'{hadrons[0]} + {hadrons[1]}' + ')/2$'
                 RHSLab = '$(' + f'3{hadrons[2]} + {hadrons[3]}' + ')/4$'
                 # print('JP=1/2+', thisNT_LHS16, thisNT_RHS16, f'{(1 - (thisNT_LHS16 / thisNT_RHS16)) * 100} percent difference')  # noqa: E501
-                thisAX = GVP.plot_gvEbar(-0.5, thisNT_LHS16, thisAX, ma='d', ls='', lab=LHSLab)
+                # Plot LHS
+                thisAX.plot(0.3, gv.mean(thisNT_LHS16), marker='d', linestyle='', label=LHSLab)
+                col = thisAX.get_lines()[-1].get_color()
+                thisAX = GVP.myFill_between([0.2, 0.4], [thisNT_LHS16] * 2, thisAX, ls='', colour=col, alpha=0.4)  # noqa: E501
                 # Plot the experimental
-                col = thisAX.get_lines()[-1].get_c()
-                thisAX = GVP.myHSpan(LHS16, thisAX, alpha=0.3, colour=col)
-                thisAX = GVP.plot_gvEbar(0.5, thisNT_RHS16, thisAX, ma='*', ls='', lab=RHSLab)
+                thisAX = GVP.myHSpan(LHS16, thisAX, alpha=0.8, colour=col)
+                # and now RHS
+                thisAX.plot(0.7, gv.mean(thisNT_RHS16), marker='d', linestyle='', label=RHSLab)
+                col = thisAX.get_lines()[-1].get_color()
+                thisAX = GVP.myFill_between([0.6, 0.8], [thisNT_RHS16] * 2, thisAX, ma='', ls='', colour=col, alpha=0.4)  # noqa: E501
                 # Plot the experimental
-                col = thisAX.get_lines()[-1].get_c()
-                thisAX = GVP.myHSpan(RHS16, thisAX, alpha=0.3, colour=col)
+                # and now RHS
+                thisAX = GVP.myHSpan(RHS16, thisAX, alpha=0.8, colour=col)
                 # The difference between RHS and LHS
-                thisAX = GVP.plot_gvEbar(0, thisNT_RHS16 - thisNT_LHS16, thisAX, ma='o', ls='', lab=RHSLab + '\n$-'+LHSLab[1:])  # noqa: E501
+                thisAX.plot(0.5, gv.mean(thisNT_RHS16 - thisNT_LHS16), marker='o', ls='', label=RHSLab + '\n$-'+LHSLab[1:])  # noqa: E501
+                col = thisAX.get_lines()[-1].get_color()
+                thisAX = GVP.myFill_between([0.4, 0.6], [thisNT_RHS16 - thisNT_LHS16] * 2, thisAX, ls='', colour=col, alpha=0.4)  # noqa: E501
                 # Plot the experimental
-                col = thisAX.get_lines()[-1].get_c()
-                thisAX = GVP.myHSpan(RHS16 - LHS16, thisAX, alpha=0.3, colour=col)
+                # col = thisAX.get_lines()[-1].get_c()
+                thisAX = GVP.myHSpan(RHS16 - LHS16, thisAX, alpha=0.8, colour=col)
             elif aName == 'lc17':
                 # Do the eqn17 with light and charm quarks
                 hadrons = ['\Xi_{cc}', '\Sigma_{c}', '\Omega_{ccc}', '\Xi_{cc}']  # noqa: W605
@@ -204,17 +211,22 @@ def main(args: list):
                 CHSLab = '$' + f'{hadrons[0]} - {hadrons[1]}' + '$'
                 RHSLab = '$' + f'{hadrons[2]} - {hadrons[3]}' + '$'
                 # print('JP=1/2+', thisNT_CHS17, thisNT_RHS17, f'{(1 - (thisNT_CHS17 / thisNT_RHS17)) * 100} percent difference')  # noqa: E501
-                thisAX = GVP.plot_gvEbar(-0.5, thisNT_CHS17, thisAX, ma='p', ls='', lab=CHSLab)
+                thisAX.plot(0.3, gv.mean(thisNT_CHS17), marker='p', ls='', label=CHSLab)
+                col = thisAX.get_lines()[-1].get_color()
+                thisAX = GVP.myFill_between([0.2, 0.4], [thisNT_CHS17] * 2, thisAX, colour=col, ls='', alpha=0.4)  # noqa: E501
                 # Plot the experimental
-                col = thisAX.get_lines()[-1].get_c()
-                thisAX = GVP.myHSpan(CHS17, thisAX, alpha=0.3, colour=col)
-                thisAX = GVP.plot_gvEbar(0.5, thisNT_RHS17, thisAX, ma='X', ls='', lab=RHSLab)
-                col = thisAX.get_lines()[-1].get_c()
+                thisAX = GVP.myHSpan(CHS17, thisAX, alpha=0.8, colour=col)
+                # and now the RHS
+                # thisAX = GVP.plot_gvEbar(0.5, thisNT_RHS17, thisAX, ma='X', ls='', lab=RHSLab)
+                thisAX.plot(0.7, gv.mean(thisNT_RHS17), marker='X', ls='', label=RHSLab)
+                col = thisAX.get_lines()[-1].get_color()
+                thisAX = GVP.myFill_between([0.6, 0.8], [thisNT_RHS17] * 2, thisAX, colour=col, ls='', alpha=0.4)  # noqa: E501
                 # No experimental RHS
-                # thisAX = GVP.myHSpan(RHS17, thisAX, alpha=0.3, colour=col)
+                # thisAX = GVP.myHSpan(RHS17, thisAX, alpha=0.8, colour=col)
             else:
                 # Other ones not implemented yet
                 continue
+
         # Get the labels from tt == 0
         # So that have only 1 label for each
         if tt == 0:
@@ -222,9 +234,16 @@ def main(args: list):
             # also the symbol only
             hLeg = [h[0] if isinstance(h, ErrorbarContainer) else h for h in handles]
         if tt == len(temperatures) - 1:
-            thisAX.legend(hLeg, legendLabels, bbox_to_anchor=(1.2, 1), borderaxespad=0, handlelength=0)  # noqa: E501
+            # Putting a dashed line for experiment in legend
+            line_dashed = mpl.lines.Line2D([], [], color='black', linestyle='--', label='Experiment')  # noqa: E501
+            hLeg.append(line_dashed)
+            legendLabels.append('Experiment')
+            thisAX.legend(hLeg, legendLabels, bbox_to_anchor=(1.2, 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
+        # Setting the xlim to make plot look nice
+        thisAX.set_xlim([0, 1])
         thisAX.set_xlabel(f'{temp}')
         thisAX.set_xticklabels([])
+        thisAX.get_xaxis().set_ticks([])
         fig.supxlabel('Temperature (MeV)')
         ax[0].set_ylabel('Mass (GeV)')
     # plt.show()
