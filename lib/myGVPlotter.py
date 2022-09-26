@@ -57,5 +57,5 @@ def myFill_between(x: np.ndarray, y: np.ndarray, ax, ma=None, ls=None, lab=None,
         col = colour
         ax.plot(x, gv.mean(y), marker=ma, linestyle=ls, color=col, label=lab)
     ax.fill_between(x, gv.mean(y) - gv.sdev(y), gv.mean(y) + gv.sdev(y),
-                    alpha=0.25, color=col, linewidth=0)
+                    alpha=alpha, color=col, linewidth=0)
     return ax
