@@ -17,6 +17,7 @@ from pathlib import Path
 insertPath = os.path.join(Path(__file__).resolve().parent, '..', 'lib')
 sys.path.insert(0, insertPath)
 import myModules as mo  # type: ignore # noqa: E402
+import myGVPlotter as GVP  # type: ignore # noqa: E402
 
 
 def main(args: list):
@@ -55,6 +56,11 @@ def main(args: list):
     # Storing the data after we load it
     data = {}
     # Load the data
+    # From csv if it exists
+    if 'massCSV' in params['mAve'].keys():
+        print(f"Loading the csv from {params['mAve']['massCSV']}")
+        massDF = pd.read_csv(params['mAve']['massCSV'])
+        NT = params['mAve']['NT']
     for aa, aLab in enumerate(params['mAve']['anaLab']):
         print(aa, aLab)
         thisDict = {}
@@ -66,13 +72,34 @@ def main(args: list):
         thisDict.update({'J': params['eMass'][aLab]['J']})
         name = params['eMass'][aLab]['name'] + 'J' + thisDict['J']
         # Now load the lattice data
-        posFile = os.path.join(params['mAve'][aLab]['pDir'], params['mAve'][aLab]['pFile'])
-        posData = gv.load(posFile) * hbarc / a_t
-        thisDict.update({'lP': posData[0]})
-        # and for negative parity
-        negFile = os.path.join(params['mAve'][aLab]['mDir'], params['mAve'][aLab]['mFile'])
-        negData = gv.load(negFile) * hbarc / a_t
-        thisDict.update({'lM': negData[1]})
+        if 'massCSV' in params['mAve'].keys():
+            # Load the mass data from here
+            aDF = massDF.query('Operator == @aLab')
+            aDF = aDF.rename(columns=lambda x: x.strip())
+            thisNT = int(NT)  # noqa: F841
+            df = aDF.query('Nt == @thisNT')
+            EP = df['EP'].values[0]
+            EPSys = df['EPSys'].values[0]
+            EM = df['EM'].values[0]
+            EMSys = df['EMSys'].values[0]
+            # Convert to physical
+            EP = gv.gvar(np.asarray(EP)) * hbarc / a_t  # type: ignore
+            EPSys = gv.gvar(np.asarray(EPSys)) * hbarc / a_t  # type: ignore
+            EM = gv.gvar(np.asarray(EM)) * hbarc / a_t  # type: ignore
+            EMSys = gv.gvar(np.asarray(EMSys)) * hbarc / a_t  # type: ignore
+            thisDict.update({'lP': EP})
+            thisDict.update({'lM': EM})
+            thisDict.update({'lPSys': EPSys})
+            thisDict.update({'lMSys': EMSys})
+        else:
+            posFile = os.path.join(params['mAve'][aLab]['pDir'], params['mAve'][aLab]['pFile'])
+            posData = gv.load(posFile) * hbarc / a_t
+            thisDict.update({'lP': posData[0]})
+            # and for negative parity
+            negFile = os.path.join(params['mAve'][aLab]['mDir'], params['mAve'][aLab]['mFile'])
+            negData = gv.load(negFile) * hbarc / a_t
+            thisDict.update({'lM': negData[1]})
+        # and set the order
         thisDict.update({'order': params['mAve'][aLab]['order']})
         data.update({name: thisDict})
     # Put it into a dataframe for easier handling
@@ -97,6 +124,10 @@ def main(args: list):
         lM = dataDF['lM'][count]
         eM = dataDF['eM'][count]
         J = dataDF['J'][count]
+        if 'lPSys' in dataDF.keys():
+            # if lPSys exists, so must lMSys
+            lPSys = dataDF['lPSys'][count]
+            lMSys = dataDF['lMSys'][count]
         xStr = '${}^{' + J + '}' + xV.split('J')[0] + '$'+'  '
         if J == '1/2':
             colP = 'tab:blue'
@@ -107,11 +138,15 @@ def main(args: list):
         colExp = 'tab:grey'
         # Plot the lattice data points
         if count == 0:
-            ax.errorbar(xStr, y=gv.mean(lP), yerr=gv.sdev(lP), color=colP, marker='d', label='Positive Parity')  # noqa: E501
-            ax.errorbar(xStr, y=gv.mean(lM), yerr=gv.sdev(lM), color=colM, marker='*', label='Negative Parity')  # noqa: E501
+            ax = GVP.plot_gvEbar(xStr, lP, ax, col=colP, ma='d', lab='Positive Parity')
+            ax = GVP.plot_gvEbar(xStr, lM, ax, col=colM, ma='*', lab='Negative Parity')
         else:
-            ax.errorbar(xStr, y=gv.mean(lP), yerr=gv.sdev(lP), color=colP, marker='d')
-            ax.errorbar(xStr, y=gv.mean(lM), yerr=gv.sdev(lM), color=colM, marker='*')
+            ax = GVP.plot_gvEbar(xStr, lP, ax, col=colP, ma='d')
+            ax = GVP.plot_gvEbar(xStr, lM, ax, col=colM, ma='*')
+        if 'lPSys' in dataDF.keys():
+            # Add the systematic if it exists
+            ax = GVP.plot_gvEbar(xStr, lPSys, ax, col=colP, alpha=0.5)
+            ax = GVP.plot_gvEbar(xStr, lMSys, ax, col=colM, alpha=0.5)
         # Plot the experimental data points
         if not np.isnan(gv.mean(eP)):
             if not expLabel:

@@ -112,6 +112,9 @@ xi = '3.453(6)'
 
 anaDir='output'
 
+NT = 128
+massCSV='/home/ryan/Documents/2022/Gen2L/Hawk/paperPlots/3expFits_14_07_2022/massChoices_sysErr.csv'
+
 # spin 1/2
 [mAve.doublet_2fl_uud]
 # Dir and file for the positive parity
