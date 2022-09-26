@@ -13,6 +13,7 @@ import gvar as gv  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 from matplotlib.ticker import MaxNLocator  # type: ignore
 from matplotlib.container import ErrorbarContainer  # type: ignore
+import matplotlib as mpl  # type: ignore
 # Grabbing some modules from elsewhere
 from pathlib import Path
 insertPath = os.path.join(Path(__file__).resolve().parent, '..', 'lib')
@@ -70,25 +71,43 @@ def main(args: list):
                 thisAX = ax[hh]
             else:
                 sys.exit(f'shouldnt get here. bad numA {numA}')
+            # Setting the ticks to only be at these points
+            thisAX.get_xaxis().set_ticks([4, 8, 12, 16, 20, 24, 28])
+            # And changing how the ticks look
+            thisAX.tick_params(
+                axis='x',          # changes apply to the x-axis
+                which='both',      # both major and minor ticks are affected
+                bottom='on',      # ticks along the bottom edge are off
+                top='off',         # ticks along the top edge are off
+                direction='in',
+                labelbottom='off'  # labels along the bottom edge are off)
+            )
             # Set the axis labels
             if hh == numA[0] - 1:
-                thisAX.set_xlabel('$\\tau$')
+                thisAX.set_xlabel('$\\tau/a_\\tau$')
+                thisAX.xaxis.set_major_locator(MaxNLocator(integer=True, prune='upper'))
             if vv == 0:
-                thisAX.set_ylabel('$G(\\tau)$')
+                thisAX.set_ylabel('$\\overline{G}(\\tau)$')
 
-                
             # Setting some plot details
             thisAX.set_xlim(params['analysis']['GxLim'])
             thisAX.set_yscale('log')
             # Integer only on x-axis markers
-            thisAX.xaxis.set_major_locator(MaxNLocator(integer=True, prune='upper'))
             # Get details for this plot
             aName = params['analysis']['anaName'][aa]
             labels = params['analysis']['labelsToAnalyse'][aa]
             print(aa, aName, labels)
             aLab = params['eMass'][aName]['name']
             J = params['eMass'][aName]['J']
+            markCount = 0
             for lab in labels:
+                if 'markers' in params['analysis'].keys():
+                    if markCount > len(params['analysis']['markers']):
+                        markCount = 0
+                    mark = params['analysis']['markers'][markCount]
+                    markCount = markCount + 1
+                else:
+                    mark = 'd'
                 GVD = gv.dataset.avg_data(io.labelNorm(cfDict['data'][lab], params))
                 parity = '+'
                 if 'F_' in lab:
@@ -111,7 +130,7 @@ def main(args: list):
                     y = GVD[:xPlotEnd]
                 else:
                     y = GVD[:xPlot]
-                thisAX = GVP.plot_gvEbar(x, y, thisAX, ma='d', lab=lab)
+                thisAX = GVP.plot_gvEbar(x, y, thisAX, ma=mark, lab=lab)
                 # This sets horizontally adjacent to have same ylimits
                 if not sharey:
                     if vv > 0:
@@ -136,7 +155,10 @@ def main(args: list):
                     hLeg = [h[0] if isinstance(h, ErrorbarContainer) else h for h in handles]
                     for ll, leg in enumerate(legendLabels):
                         lLeg.append(leg.split('_')[-1].split('x32')[0])
-                    thisAX.legend(hLeg, lLeg, bbox_to_anchor=(1.12, 1), loc='upper left', borderaxespad=0, handlelength=0)  # noqa: E501
+                    # This offset appropriate for smaller text
+                    # thisAX.legend(hLeg, lLeg, bbox_to_anchor=(1.12, 1), loc='upper left', borderaxespad=0, handlelength=0)  # noqa: E501
+                    # and this one for bigger
+                    thisAX.legend(hLeg, lLeg, bbox_to_anchor=(1.165, 1), loc='upper left', borderaxespad=0, handlelength=0)  # noqa: E501
                     setLegend = True
 
             # Increment analysis counter
@@ -150,4 +172,10 @@ def main(args: list):
 
 if __name__ == '__main__':
     mo.initBigPlotSettings()
+    mpl.rcParams['lines.markersize'] = 10.0
+    # For Poster/Presentation
+    mpl.rcParams['ytick.labelsize'] = 32
+    mpl.rcParams['xtick.labelsize'] = 32
+    mpl.rcParams['font.size'] = 28
+    mpl.rcParams['legend.fontsize'] = 28
     main(sys.argv[1:])
