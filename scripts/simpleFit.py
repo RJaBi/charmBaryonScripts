@@ -534,7 +534,14 @@ def main(args: list):
         ax1.set_xlim([-1, None])
         # ax1.set_xlim([wins[0], None])
         ax2.plot(wins, wf[0, :], marker='+', linestyle='')
-        ax2.set_xticklabels(wins, rotation=45, ha='right')
+        # ax2.set_xticklabels(wins, rotation=45, ha='right')
+        ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
+        ax2.set_xticklabels(wins, rotation=90)  # , ha='right')
+        ax1.set_xticklabels(wins, rotation=90)
+        for tickLab in ax1.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
+        for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
+            tickLab.set_visible(False)
         # ax1.set_ylim(params['analysis']['EFitLim'])
         ax1.set_ylabel('$a\,E_{plat}^{+}$')  # noqa: W605
         ax2.set_xlabel('$\\tau_{min}$')
@@ -551,8 +558,13 @@ def main(args: list):
         # ax1.set_xlim([wins[1], None])
         ax1.set_xlim([-1, None])
         ax2.plot(wins, wf[1, :], marker='+', linestyle='')
-        ax2.set_xticklabels(wins, rotation=45, ha='right')
-        # ax1.set_ylim(params['analysis']['EFitLim'])
+        ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
+        ax2.set_xticklabels(wins, rotation=90)  # , ha='right')
+        ax1.set_xticklabels(wins, rotation=90)
+        for tickLab in ax1.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
+        for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
+            tickLab.set_visible(False)
         ax1.set_ylabel('$a\,E_{plat}^{-}$')  # noqa: W605
         ax2.set_xlabel('$\\tau_{min}$')
         ax2.set_ylabel('weight')
@@ -567,7 +579,13 @@ def main(args: list):
         # ax1.set_xlim([wins[0], None])
         ax1.set_xlim([-1, None])
         ax2.plot(wins, prMD_plat, marker='+', linestyle='')  # type: ignore  # noqa: F821
-        ax2.set_xticklabels(wins, rotation=45, ha='right')
+        ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
+        ax2.set_xticklabels(wins, rotation=90)  # , ha='right')
+        ax1.set_xticklabels(wins, rotation=90)
+        for tickLab in ax1.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
+        for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
+            tickLab.set_visible(False)
         # ax1.set_ylim(params['analysis']['EFitLim'])
         ax1.set_ylabel('$a\,E_{plat}^{+}$')  # noqa: W605
         ax2.set_xlabel('fit window')
@@ -585,7 +603,14 @@ def main(args: list):
         # ax1.set_xlim([wins[1], None])
         ax1.set_xlim([-1, None])
         ax2.plot(wins, prMD_plat, marker='+', linestyle='')  # type: ignore  # noqa: F821
-        ax2.set_xticklabels(wins, rotation=45, ha='right')
+        # ax2.set_xticklabels(wins, rotation=45, ha='right')
+        ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
+        ax2.set_xticklabels(wins, rotation=90)  # , ha='right')
+        ax1.set_xticklabels(wins, rotation=90)
+        for tickLab in ax1.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
+        for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
+            tickLab.set_visible(False)
         # ax1.set_ylim(params['analysis']['EFitLim'])
         ax1.set_ylabel('$a\,E_{plat}^{-}$')  # noqa: W605
         ax2.set_xlabel('fit window')
@@ -765,10 +790,24 @@ def main(args: list):
         ax1_t.set_xlim([-1, None])
         ax2.plot(wins, prMD, marker='d', linestyle='')
         ax2.plot(wins, wf[0, :], marker='+', linestyle='')
-        ax2.set_xticklabels(wins, rotation=45, ha='right')
+        # ax2.set_xticklabels(wins, rotation=45, ha='right')
+        ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
+        ax2.set_xticklabels(wins, rotation=90)  # , ha='right')
+        ax1.set_xticklabels(wins, rotation=90)
+        for tickLab in ax1.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
+        for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
+            tickLab.set_visible(False)
         ax2_t.plot(wins, prMD, marker='d', linestyle='')
         ax2_t.plot(wins, wf[1, :], marker='+', linestyle='')
-        ax2_t.set_xticklabels(wins, rotation=45, ha='right')
+        # ax2_t.set_xticklabels(wins, rotation=45, ha='right')
+        ax1_t.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
+        ax2_t.set_xticklabels(wins, rotation=90)  # , ha='right')
+        ax1_t.set_xticklabels(wins, rotation=90)
+        for tickLab in ax1_t.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
+        for tickLab in ax2_t.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
+            tickLab.set_visible(False)
         ax1.set_ylim(params['analysis']['EFitLim'])
         ax1_t.set_ylim(params['analysis']['EFitLim'])
         ax1.set_ylabel('$a\,E_{fit}^{+}$')  # noqa: W605
@@ -830,7 +869,13 @@ def main(args: list):
         # ax1.set_xlim([sortWins[0], None])
         ax1.set_xlim([-1, None])
         ax2.plot(sortWins, sortPrMD, marker='d', linestyle='')
-        ax2.set_xticklabels(sortWins, rotation=45, ha='right')
+        ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
+        ax2.set_xticklabels(sortWins, rotation=90)  # , ha='right')
+        ax1.set_xticklabels(sortWins, rotation=90)
+        for tickLab in ax1.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
+        for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
+            tickLab.set_visible(False)
         # ax1.set_ylim(params['analysis']['EFitLim'])
         ax1.legend(loc='best', ncol=2)
         ax3.legend(loc='best', ncol=2)
@@ -856,7 +901,14 @@ def main(args: list):
         ax1.set_xlim([-1, None])
         ax1.legend(loc='best', ncol=2)
         ax2.plot(sortWins, sortWfP, marker='+', linestyle='')
-        ax2.set_xticklabels(sortWins, rotation=45, ha='right')
+        # ax2.set_xticklabels(sortWins, rotation=45, ha='right')
+        ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
+        ax2.set_xticklabels(sortWins, rotation=90)  # , ha='right')
+        ax1.set_xticklabels(sortWins, rotation=90)
+        for tickLab in ax1.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
+        for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
+            tickLab.set_visible(False)
         ax1.set_ylabel('$a\,E_{fit}^{+}$')  # noqa: W605
         ax2.set_xlabel('fit window')
         ax2.set_ylabel('weight')
@@ -875,7 +927,13 @@ def main(args: list):
         ax1.set_xlim([-1, None])
         ax1.legend(loc='best', ncol=2)
         ax2.plot(sortWins, sortWfP, marker='+', linestyle='')
-        ax2.set_xticklabels(sortWins, rotation=45, ha='right')
+        ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
+        ax2.set_xticklabels(sortWins, rotation=90)  # , ha='right')
+        ax1.set_xticklabels(sortWins, rotation=90)
+        for tickLab in ax1.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
+        for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
+            tickLab.set_visible(False)
         ax1.set_ylabel('$a\,E_{fit}^{-}$')  # noqa: W605
         ax2.set_xlabel('fit window')
         ax2.set_ylabel('weight')
@@ -1032,10 +1090,21 @@ def main(args: list):
         ax1_t.set_xlim([-1, None])
         ax2.plot(wins, prMD, marker='d', linestyle='')
         ax2.plot(wins, wf[0, :], marker='+', linestyle='')
-        ax2.set_xticklabels(wins, rotation=45, ha='right')
+        ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
+        ax2.set_xticklabels(wins, rotation=90)  # , ha='right')
+        ax1.set_xticklabels(wins, rotation=90)
+        for tickLab in ax1.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
+        for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
+            tickLab.set_visible(False)
         ax2_t.plot(wins, prMD, marker='d', linestyle='')
         ax2_t.plot(wins, wf[1, :], marker='+', linestyle='')
-        ax2_t.set_xticklabels(wins, rotation=45, ha='right')
+        ax2_t.set_xticklabels(wins, rotation=90)  # , ha='right')
+        ax1_t.set_xticklabels(wins, rotation=90)
+        for tickLab in ax1_t.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
+        for tickLab in ax2_t.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
+            tickLab.set_visible(False)
         # ax1.set_ylim(params['analysis']['EFitLim'])
         # ax1_t.set_ylim(params['analysis']['EFitLim'])
         ax1.set_ylabel('$a\,E_{fit}^{+}$')  # noqa: W605
@@ -1099,8 +1168,11 @@ def main(args: list):
         # ax1.set_xlim([sortWins[0], None])
         ax1.set_xlim([-1, None])
         ax2.plot(sortWins, sortPrMD, marker='d', linestyle='')
-        xTickLabels = range(1, len(sortWins) + 1)
-        ax2.set_xticklabels(xTickLabels)
+        ax2.set_xticklabels(sortWins, rotation=90)  # , ha='right')
+        ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
+        ax1.set_xticklabels(sortWins, rotation=90)
+        for tickLab in ax1.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
         for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
             tickLab.set_visible(False)
         # ax2.set_xticklabels(sortWins, rotation=45, ha='right')
@@ -1129,8 +1201,11 @@ def main(args: list):
         ax1.set_xlim([-1, None])
         ax1.legend(loc='best', ncol=2)
         ax2.plot(sortWins, sortWfP, marker='+', linestyle='')
-        xTickLabels = range(1, len(sortWins) + 1)
-        ax2.set_xticklabels(xTickLabels)
+        ax2.set_xticklabels(sortWins, rotation=90)  # , ha='right')
+        ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
+        ax1.set_xticklabels(sortWins, rotation=90)
+        for tickLab in ax1.get_xaxis().get_ticklabels()[1::2]:  # Getting every odd xtick label
+            tickLab.set_visible(False)
         for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
             tickLab.set_visible(False)
         # ax2.set_xticklabels(sortWins, rotation=45, ha='right')
