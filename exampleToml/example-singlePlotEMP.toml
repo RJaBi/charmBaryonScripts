@@ -3,6 +3,10 @@
 # norm = 'EP0'
 # yLim = ['None', 'None']  # chooses auto if not present
 
+# Offset on the legend
+posXOffset = 2.2
+negXOffset = 2.4
+
 [eMass]
 # Physical masses of particles in GeV
 # Taken from particle data group

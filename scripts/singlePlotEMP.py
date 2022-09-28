@@ -53,9 +53,28 @@ def setYlim(params, ax):
             yLims[vv, hh, :] = ymin, ymax
             if 'ylim' in params.keys():
                 ax[vv, hh].set_ylim(params['ylim'])
+                # put y-axis tick labels on or not
+                if hh == 0:
+                    labelleft = True
+                    labelright = False
+                elif hh == np.shape(ax)[1] - 1:
+                    labelleft = False
+                    labelright = True
+                else:
+                    labelleft = False
+                    labelright = False
+                # and make ticks visible
+                ax[vv, hh].yaxis.set_tick_params(
+                    which='both',
+                    left='on',
+                    right='on',
+                    direction='inout',
+                    labelleft=labelleft,
+                    labelright=labelright
+                )
     if 'ylim' in params.keys():
         return ax
-    # Now set it
+    # Now set ylims
     for vv in range(0, np.shape(ax)[0]):
         vertMid = np.median(middles[vv, :])
         yMinVV = vertMid - yScale / 2
@@ -76,7 +95,27 @@ def setYlim(params, ax):
                 yMinVV = ymin
         # and finally set it
         for hh in range(0, np.shape(ax)[1]):
+            # put y-axis tick labels on or not
+            if hh == 0:
+                labelleft = True
+                labelright = False
+            elif hh == np.shape(ax)[1] - 1:
+                labelleft = False
+                labelright = True
+            else:
+                labelleft = False
+                labelright = False
+            # set the y limits
             ax[vv, hh].set_ylim([yMinVV, yMaxVV])
+            # and make ticks visible
+            ax[vv, hh].yaxis.set_tick_params(
+                which='both',
+                left='on',
+                right='on',
+                direction='inout',
+                labelleft=labelleft,
+                labelright=labelright
+            )
     # and return
     return ax
 
@@ -203,15 +242,6 @@ def main(args: list):
             thisAXM.plot(xMid, gv.mean(EM), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
             thisAXM = GVP.myFill_between([xStart, xEnd], [EM] * 2, thisAXM, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
             thisAXM = GVP.myFill_between([xStart, xEnd], [EMSys] * 2, thisAXM, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
-            # change y-ticks, etc
-            if tt != 0:
-                thisAX.get_yaxis().set_visible(False)
-                thisAXM.get_yaxis().set_visible(False)
-            if tt == len(temperatures) - 1:
-                thisAX.yaxis.tick_right()
-                thisAXM.yaxis.tick_right()
-                thisAX.get_yaxis().set_visible(True)
-                thisAXM.get_yaxis().set_visible(True)
         # outside loop
         thisAX.set_xlabel(f'{temp}')
         thisAX.get_xaxis().set_ticks([])
@@ -238,9 +268,9 @@ def main(args: list):
         line_dashed = Line2D([], [], color='black', linestyle='--', label='Exp.')  # noqa: E501
         allHandles.append(line_dashed)
         allLegends.append('Exp.')
-        ax[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(2.2, 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
-        axM[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(2.4, 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
-    # Now determine  and sety-limits
+        ax[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['posXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
+        axM[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
+    # Now determine  and set y-limits and y-ticks
     ax = setYlim(params, ax)
     axM = setYlim(params, axM)
     ax[0, 0].set_xlim(xRan)
