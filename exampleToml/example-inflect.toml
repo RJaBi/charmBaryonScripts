@@ -1,0 +1,16 @@
+
+# Where to read the inflection points from
+inflectCSV= [
+	    '/home/ryan/Documents/2022/Gen2L/Hawk/charmBaryonData/output/parityRatio/1_200/Inflect_M_Sdev.csv',
+	     '/home/ryan/Documents/2022/Gen2L/Hawk/charmBaryonData/output/parityRatio/1_200/Inflect_M_Sdev.csv'
+	    ]
+# The superscript to put to the left of the 'ana' label
+# Matches inflectCSV
+leftSuperScript = ['1/2', '3/2']
+
+anaDir='output/'
+
+Tpc = '167(2.5)'
+TpcLab = '$T_{c}^{\left\langle \Psi \Psi \right\rangle_{R}}$'
+# Options are MeV and TTpc
+TpcType = 'TTpc'
