@@ -43,14 +43,14 @@ def main(args: list):
     print('Analysis output directory is ', anaDir)
     if not os.path.exists(anaDir):
         os.makedirs(anaDir)
-    Tpc = gv.gvar(params['Tpc'])
+    PsiTpc = gv.gvar(params['Tpc'])
     fig, ax = plt.subplots(figsize=(16.6, 11.6))
-    ax = GVP.myHSpan(Tpc, ax, alpha=0.8, lab=params['TpcLab'])
+    ax = GVP.myHSpan(PsiTpc, ax, alpha=0.8, lab=params['TpcLab'])
+    xLabels = []
     for dd, df in enumerate(inflectDFList):
-        print(df.columns)
+        plt.gca().set_prop_cycle(None)
+        print(dd, df)
         if params['TpcType'] == 'MeV':
-            print(df['MeV'])
-            print(df['MeVErr'])
             Tpc = gv.gvar(df['MeV'].values, df['MeVErr'].values)
             yScale = ' (MeV)'
         elif params['TpcType'] == 'TTpc':
@@ -64,8 +64,12 @@ def main(args: list):
             xAxis[xx] = '${}^{' + leftScript + '}' + xV[1:]
         markers = mo.markers
         for x, y, mark in zip(xAxis, Tpc, markers):
+            if y < 0.8 * PsiTpc or y > 1.2 * PsiTpc:
+                continue
+            xLabels.append(x)
             ax = GVP.plot_gvEbar(x, y, ax, ma=mark, ls='')
     # finalise plot
+    ax.set_xticklabels(xLabels, rotation=90)
     ax.set_ylabel('$T_c$' + yScale)
     ax.set_xlabel('Baryon')
     ax.legend(loc='best', ncol=2, fontsize=28)
@@ -75,7 +79,7 @@ def main(args: list):
 
 if __name__ == '__main__':
     mo.initBigPlotSettings()
-    mpl.rcParams['lines.markersize'] = 10.0
+    mpl.rcParams['lines.markersize'] = 16.0
     # For Poster/Presentation
     mpl.rcParams['ytick.labelsize'] = 32
     mpl.rcParams['xtick.labelsize'] = 32
