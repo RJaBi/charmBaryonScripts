@@ -120,7 +120,7 @@ def main(args: list):
         xLeg = ''
     else:
         xLeg = '(MeV)'
-        xScale = 'T ' + xLeg
+        xScale = 'Temperature'
     # where we put the analysis
     anaDir = os.path.join(params['analysis']['anaDir'], f'{int(fMin)}_{int(fMax)}')
     print('Analysis output directory is ', anaDir)
@@ -254,20 +254,27 @@ def main(args: list):
 
             if 'figTextYPos' in params['analysis'].keys():
                 # Plotting some text at end of lines
-                aC = anaCount - 1
-                xt = XTemps[aC] + 0.2 * abs(XTemps[0] - XTemps[1])
-                xtP = XTemps[aC] + 0.7 * abs(XTemps[0] - XTemps[1])
+                # aC = anaCount - 1
+                xt = XTemps[-1] + 0.2 * abs(XTemps[0] - XTemps[1])
+                # xtP = XTemps[aC] + 1.2 * abs(XTemps[0] - XTemps[1])
                 yt = params['analysis']['figTextYPos'][ii]
-                axCurve.text(xt, yt, params['analysis']['figText'][ii])
-                axCurve.plot(xtP, yt, marker='d', alpha=0)
+                text = axCurve.text(xt, yt, params['analysis']['figText'][ii])
+                # Putting a marker in to the right of the text
+                text.draw(figCurve.canvas.get_renderer())
+                ex = text.get_window_extent()
+                tex = axCurve.transData.inverted().transform_bbox(ex)
+                print('tex is ', tex)
+                xM = tex.x0 + 1050.0 * tex.height
+                yM = tex.y0 + 0.5 * tex.height
+                axCurve.plot(xM, yM, marker=marks[markCount], color=cols[colCount], linestyle='')
 
-            if writeSteps:
-                saveFile = os.path.join(anaDir, f'{params["analysis"]["figText"][ii]}_RRatio_TauN{itn}_M_Sdev.txt')  # noqa: E501
-                saveFile = mo.clean_filename(saveFile, whitelist=['/'])
-                with open(saveFile, 'w') as f:
-                    f.write('XTemp, mean, err \n')
-                    for xx in range(0, len(XTemps)):  # type: ignore
-                        f.write(f'{XTemps[xx]}, {gv.mean(Rtn[thisTnCount, xx])},  {gv.sdev(Rtn[thisTnCount, xx])} \n')  # noqa: E501
+            # Saving the points we fit a spline to to file
+            saveFile = os.path.join(anaDir, f'{params["analysis"]["figText"][ii]}_RRatio_TauN{itn}_M_Sdev.txt')  # noqa: E501
+            saveFile = mo.clean_filename(saveFile, whitelist=['/'])
+            with open(saveFile, 'w') as f:
+                f.write('XTemp, mean, err \n')
+                for xx in range(0, len(XTemps)):  # type: ignore
+                    f.write(f'{XTemps[xx]}, {gv.mean(Rtn[thisTnCount, xx])},  {gv.sdev(Rtn[thisTnCount, xx])} \n')  # noqa: E501
             # Now fit the spline
             tS = np.linspace(XTemps.min(), XTemps.max(), 5000)
             tnSpline = gv.cspline.CSpline(np.float64(XTemps), Rtn[thisTnCount, :], alg='cspline', extrap_order=3)  # noqa: E501
@@ -410,7 +417,7 @@ def main(args: list):
             CV = gv.mean(finalInflectVal)
             if CV > 0.8 * TpcScale and CV < 1.2 * TpcScale:
                 if xLeg != '':
-                    label = f'{params["analysis"]["figText"][ii]}, $\\tau_n = {itn}$' + ', $T_{inf} = '+f'{finalInflectVal}' + '$ $' + xLeg + '$'  # noqa: E501
+                    label = f'{params["analysis"]["figText"][ii]}, $\\tau_n = {itn}$' + ', $T_{inf} = '+f'{finalInflectVal}' + '$ ' + xLeg + ''  # noqa: E501
                 else:
                     label = f'{params["analysis"]["figText"][ii]}, $\\tau_n = {itn}$' + ', $T_{inf} = '+f'{finalInflectVal}' + '$'  # noqa: E501
                 print(f'LABEL IS {label}')
@@ -439,7 +446,7 @@ def main(args: list):
                 colCount = colCount + 1
             thisTnCount = thisTnCount + 1
     axCurve.set_ylim(params['analysis']['RyLim'])
-    axCurve.set_xlabel('$' + xScale + '$')
+    axCurve.set_xlabel(xScale + ' ' + xLeg)
     axCurve.set_ylabel('$R$')  # noqa: W605
 
     # axCurve.legend(loc='best', ncol=2)
@@ -492,13 +499,18 @@ def main(args: list):
         plt.close(fig)
         pdf.close()
         # Write the inflection points to a file
-        if writeSteps:
-            saveFile = os.path.join(anaDir, 'Inflect_M_Sdev.txt')
-            with open(saveFile, 'w') as f:
-                f.write(f'ana, MeV, MeVErr, TTpc, TTpcErr \n')
-                for ana, temp in inflectVals.items():
+        saveFile = os.path.join(anaDir, 'Inflect_M_Sdev.csv')
+        with open(saveFile, 'w') as f:
+            f.write(f'ana, MeV, MeVErr, TTpc, TTpcErr \n')
+            for ana, temp in inflectVals.items():
+                tempMeV = temp * Tpc[0]
+                if TpcScale == 1.0:
                     tempMeV = temp * Tpc[0]
-                    f.write(f'{ana}, {gv.mean(tempMeV)}, {gv.sdev(tempMeV)}, {gv.mean(temp)}, {gv.sdev(temp)} \n')  # noqa: E501
+                    tempTpc = temp
+                else:
+                    tempMeV = temp
+                    tempTpc = temp / Tpc[0]
+                f.write(f'{ana}, {gv.mean(tempMeV)}, {gv.sdev(tempMeV)}, {gv.mean(tempTpc)}, {gv.sdev(tempTpc)} \n')  # noqa: E501
     sys.exit('Finished')
 
 
@@ -508,5 +520,5 @@ if __name__ == '__main__':
     # For Poster/Presentation
     mpl.rcParams['ytick.labelsize'] = 32
     mpl.rcParams['xtick.labelsize'] = 32
-    mpl.rcParams['font.size'] = 28
+    mpl.rcParams['font.size'] = 36
     main(sys.argv[1:])
