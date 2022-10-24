@@ -70,6 +70,7 @@ def main(args: list):
         if params['eMass'][aLab]['M'] != '':
             thisDict.update({'eM': gv.gvar(params['eMass'][aLab]['M'])})
         thisDict.update({'J': params['eMass'][aLab]['J']})
+        thisDict.update({'quarks': params['eMass'][aLab]['quarks']})
         name = params['eMass'][aLab]['name'] + 'J' + thisDict['J']
         # Now load the lattice data
         if 'massCSV' in params['mAve'].keys():
@@ -124,11 +125,12 @@ def main(args: list):
         lM = dataDF['lM'][count]
         eM = dataDF['eM'][count]
         J = dataDF['J'][count]
+        qqq = dataDF['quarks'][count]
         if 'lPSys' in dataDF.keys():
             # if lPSys exists, so must lMSys
             lPSys = dataDF['lPSys'][count]
             lMSys = dataDF['lMSys'][count]
-        xStr = '${}^{' + J + '}' + xV.split('J')[0] + '$'+'  '
+        xStr = '${}^{' + J + '}' + xV.split('J')[0] + '$'+'  ' + '\n$' + f'({qqq})$'
         if J == '1/2':
             colP = 'tab:blue'
             colM = 'tab:red'
