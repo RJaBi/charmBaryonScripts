@@ -142,7 +142,7 @@ def main(args: list):
                         ax[hh][vv-1].set_ylim([yLimMin, yLimMax])
             print(text)
             # And put the text on the figure
-            thisAX.text(0.18, 0.2, text, horizontalalignment='center', verticalalignment='center', transform=thisAX.transAxes)  # noqa: E501
+            thisAX.text(0.25, 0.2, text, horizontalalignment='center', verticalalignment='center', transform=thisAX.transAxes)  # noqa: E501
             # Setting plots on RHS to have axis on right
             if vv == numA[1] - 1:
                 print('true')
@@ -158,7 +158,9 @@ def main(args: list):
                     # This offset appropriate for smaller text
                     # thisAX.legend(hLeg, lLeg, bbox_to_anchor=(1.12, 1), loc='upper left', borderaxespad=0, handlelength=0)  # noqa: E501
                     # and this one for bigger
-                    thisAX.legend(hLeg, lLeg, bbox_to_anchor=(1.165, 1), loc='upper left', borderaxespad=0, handlelength=0)  # noqa: E501
+                    # thisAX.legend(hLeg, lLeg, bbox_to_anchor=(1.165, 1), loc='upper left', borderaxespad=0, handlelength=0)  # noqa: E501
+                    # and this one for even bigger
+                    thisAX.legend(hLeg, lLeg, bbox_to_anchor=(1.19, 1), loc='upper left', borderaxespad=0, handlelength=0)  # noqa: E501
                     setLegend = True
 
             # Increment analysis counter
@@ -176,6 +178,6 @@ if __name__ == '__main__':
     # For Poster/Presentation
     mpl.rcParams['ytick.labelsize'] = 32
     mpl.rcParams['xtick.labelsize'] = 32
-    mpl.rcParams['font.size'] = 28
+    mpl.rcParams['font.size'] = 32
     mpl.rcParams['legend.fontsize'] = 28
     main(sys.argv[1:])
