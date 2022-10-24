@@ -72,7 +72,7 @@ def main(args: list):
     ax.set_xticklabels(xLabels, rotation=90)
     ax.set_ylabel('$T_c$' + yScale)
     ax.set_xlabel('Baryon')
-    ax.legend(loc='best', ncol=2, fontsize=28)
+    ax.legend(loc='best', ncol=2, fontsize=36)
     plt.savefig(os.path.join(anaDir, 'inflectionPoints.pdf'))
     sys.exit('Finished')
 
