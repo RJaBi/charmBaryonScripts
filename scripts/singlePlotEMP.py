@@ -23,10 +23,12 @@ import myModules as mo  # type: ignore # noqa: E402
 import myGVPlotter as GVP  # type: ignore # noqa: E402
 
 
-def setYlim(params, ax):
+def setYlim(params, ax, axScale):
     """
     Sets the ylims on each of the subplots
     such that they have the same scale
+    Set the scale on ax, using the scale of axScale
+    also returns the yScale
     """
     # First iterate over each axis
     # yScale is ymax - ymin
@@ -39,9 +41,9 @@ def setYlim(params, ax):
         for hh in range(0, np.shape(ax)[1]):
             # Need to consider the difference across all temperatures
             if hh == 0:
-                ymin, ymax = ax[vv, hh].get_ylim()
+                ymin, ymax = axScale[vv, hh].get_ylim()
             else:
-                thisYMin, thisYMax = ax[vv, hh].get_ylim()
+                thisYMin, thisYMax = axScale[vv, hh].get_ylim()
                 if thisYMax > ymax:
                     ymax = thisYMax
                 if thisYMin < ymin:
@@ -75,6 +77,7 @@ def setYlim(params, ax):
     if 'ylim' in params.keys():
         return ax
     # Now set ylims
+    print(f'ysScale is {yScale}')
     for vv in range(0, np.shape(ax)[0]):
         vertMid = np.median(middles[vv, :])
         yMinVV = vertMid - yScale / 2
@@ -117,7 +120,7 @@ def setYlim(params, ax):
                 labelright=labelright
             )
     # and return
-    return ax
+    return ax, yScale
 
 
 def main(args: list):
@@ -155,15 +158,18 @@ def main(args: list):
             sys.exit(f'bad normamlisation norm={params["norm"]} selected. Exiting')
         pdfName = os.path.join(anaDir, f'singleEMPPlot_norm_{pdfMod}.pdf')
         pdfNameM = os.path.join(anaDir, f'singleEMPPlot_NegParity_norm_{pdfMod}.pdf')
+        pdfNameDiff = os.path.join(anaDir, f'singleEMPPlot_Diff_norm_{pdfMod}.pdf')
     else:
         pdfName = os.path.join(anaDir, f'singleEMPPlot.pdf')
         pdfNameM = os.path.join(anaDir, f'singleEMPPlot_NegParity.pdf')
+        pdfNameDiff = os.path.join(anaDir, f'singleEMPPlot_Diff.pdf')
     # now this is hwere savign to
     print(f'Saving pdf to {pdfName} and {pdfNameM}')
     temperatures = params['latMass']['temperatures']
     # A plot for negative and positive parities
     fig, ax = plt.subplots(params['latMass']['vertSplit'], len(temperatures), figsize=(16.6, 11.6), sharey=False, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0})  # noqa: E501
     figM, axM = plt.subplots(params['latMass']['vertSplit'], len(temperatures), figsize=(16.6, 11.6), sharey=False, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0})  # noqa: E501
+    figDiff, axDiff = plt.subplots(params['latMass']['vertSplit'], len(temperatures), figsize=(16.6, 11.6), sharey=False, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0}, constrained_layout=True)  # noqa: E501
     # Iterate over different temperatures
     cols = params['latMass']['colours']
     marks = params['latMass']['markers']
@@ -187,6 +193,7 @@ def main(args: list):
             thisVGroup = params['latMass']['vertGroup'][aa]
             thisAX = ax[thisVGroup, tt]
             thisAXM = axM[thisVGroup, tt]
+            thisAXDiff = axDiff[thisVGroup, tt]
             # Doing the physical mass
             # as lines
             if params['eMass'][aName]['P'] != '':
@@ -199,6 +206,7 @@ def main(args: list):
                 physEM = gv.gvar(None)
             thisAX = GVP.myHSpan(physEP, thisAX, colour=cols[aa], alpha=0.8)
             thisAXM = GVP.myHSpan(physEM, thisAXM, colour=cols[aa], alpha=0.8)
+            thisAXDiff = GVP.myHSpan(physEP - physEM, thisAXDiff, colour=cols[aa], alpha=0.8)
             if NT not in params['latMass']['mALabels'][aa]:
                 continue
             # print(aa, aName)
@@ -236,12 +244,18 @@ def main(args: list):
                 allHandlesDict[thisVGroup].append(thisPointLabel)
                 allLegendsDict[thisVGroup].append(lab)
             # and now plot
+            # pos parity
             thisAX.plot(xMid, gv.mean(EP), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
             thisAX = GVP.myFill_between([xStart, xEnd], [EP] * 2, thisAX, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
             thisAX = GVP.myFill_between([xStart, xEnd], [EPSys] * 2, thisAX, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
+            # neg parity
             thisAXM.plot(xMid, gv.mean(EM), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
             thisAXM = GVP.myFill_between([xStart, xEnd], [EM] * 2, thisAXM, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
             thisAXM = GVP.myFill_between([xStart, xEnd], [EMSys] * 2, thisAXM, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
+            # the difference
+            thisAXDiff.plot(xMid, gv.mean(EP - EM), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
+            thisAXDiff = GVP.myFill_between([xStart, xEnd], [EP - EM] * 2, thisAXDiff, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
+            thisAXDiff = GVP.myFill_between([xStart, xEnd], [EPSys - EMSys] * 2, thisAXDiff, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
         # outside loop
         thisAX.set_xlabel(f'{temp}')
         thisAX.get_xaxis().set_ticks([])
@@ -250,15 +264,22 @@ def main(args: list):
         fig.supylabel('Mass (GeV)')
         ax[-1, tt].set_xlabel(f'{temp}')
         axM[-1, tt].set_xlabel(f'{temp}')
+        axDiff[-1, tt].set_xlabel(f'{temp}')
         for vs in range(0, params['latMass']['vertSplit']):
             charmness = params['latMass']['charmness'][vs]
             ax[vs, 0].text(0.15, 0.8, '$' + f'C={charmness}' + '$', transform=ax[vs, 0].transAxes, usetex=True)  # noqa: E501
             axM[vs, 0].text(0.15, 0.85, '$' + f'C={charmness}' + '$', transform=axM[vs, 0].transAxes, usetex=True)  # noqa: E501
+            axDiff[vs, 0].text(0.15, 0.85, '$' + f'C={charmness}' + '$', transform=axDiff[vs, 0].transAxes, usetex=True)  # noqa: E501
         # Removing xticks
         thisAXM.set_xticklabels([])
         thisAXM.get_xaxis().set_ticks([])
         figM.supxlabel('Temperature (MeV)')
         figM.supylabel('Mass (GeV)')
+        # and for the diff
+        thisAXDiff.set_xticklabels([])
+        thisAXDiff.get_xaxis().set_ticks([])
+        figDiff.supxlabel('Temperature (MeV)')
+        figDiff.supylabel('$M^{+} - M^{-}$ (GeV)')
 
     # Doing the legend
     # Add a line for experiment
@@ -270,14 +291,28 @@ def main(args: list):
         allLegends.append('Exp.')
         ax[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['posXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
         axM[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
+        axDiff[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
     # Now determine  and set y-limits and y-ticks
-    ax = setYlim(params, ax)
-    axM = setYlim(params, axM)
+    # determine scales indivudually
+    # so can set according to the largest
+    ax, axScale = setYlim(params, ax, ax)
+    axM, axMScale = setYlim(params, axM, axM)
+    if axScale > axMScale:
+        ax, axScale = setYlim(params, ax, ax)
+        axM, axMScale = setYlim(params, axM, ax)
+    else:
+        ax, axScale = setYlim(params, ax, axM)
+        axM, axMScale = setYlim(params, axM, axM)
+    # and set axDiff separately
+    # doesn't work if set on ax currently
+    axDiff = setYlim(params, axDiff, axDiff)
     ax[0, 0].set_xlim(xRan)
     fig.savefig(pdfName)
     plt.close(fig)
     figM.savefig(pdfNameM)
     plt.close(figM)
+    figDiff.savefig(pdfNameDiff)
+    plt.close(figDiff)
     sys.exit('Finished')
 
 
