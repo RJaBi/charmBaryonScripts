@@ -169,7 +169,7 @@ def main(args: list):
     # A plot for negative and positive parities
     fig, ax = plt.subplots(params['latMass']['vertSplit'], len(temperatures), figsize=(16.6, 11.6), sharey=False, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0})  # noqa: E501
     figM, axM = plt.subplots(params['latMass']['vertSplit'], len(temperatures), figsize=(16.6, 11.6), sharey=False, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0})  # noqa: E501
-    figDiff, axDiff = plt.subplots(params['latMass']['vertSplit'], len(temperatures), figsize=(16.6, 11.6), sharey=False, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0}, constrained_layout=True)  # noqa: E501
+    figDiff, axDiff = plt.subplots(params['latMass']['vertSplit'], len(temperatures), figsize=(16.6, 11.6), sharey=False, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0})  # noqa: E501
     # Iterate over different temperatures
     cols = params['latMass']['colours']
     marks = params['latMass']['markers']
@@ -206,7 +206,7 @@ def main(args: list):
                 physEM = gv.gvar(None)
             thisAX = GVP.myHSpan(physEP, thisAX, colour=cols[aa], alpha=0.8)
             thisAXM = GVP.myHSpan(physEM, thisAXM, colour=cols[aa], alpha=0.8)
-            thisAXDiff = GVP.myHSpan(physEP - physEM, thisAXDiff, colour=cols[aa], alpha=0.8)
+            thisAXDiff = GVP.myHSpan(-1.0 * (physEP - physEM) / (physEM + physEP), thisAXDiff, colour=cols[aa], alpha=0.8)  # noqa: E501
             if NT not in params['latMass']['mALabels'][aa]:
                 continue
             # print(aa, aName)
@@ -253,9 +253,10 @@ def main(args: list):
             thisAXM = GVP.myFill_between([xStart, xEnd], [EM] * 2, thisAXM, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
             thisAXM = GVP.myFill_between([xStart, xEnd], [EMSys] * 2, thisAXM, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
             # the difference
-            thisAXDiff.plot(xMid, gv.mean(EP - EM), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
-            thisAXDiff = GVP.myFill_between([xStart, xEnd], [EP - EM] * 2, thisAXDiff, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
-            thisAXDiff = GVP.myFill_between([xStart, xEnd], [EPSys - EMSys] * 2, thisAXDiff, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
+            thisAXDiff.plot(xMid, gv.mean((EM - EP) / (EM + EP)), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
+            thisAXDiff = GVP.myFill_between([xStart, xEnd], [(EM - EP) / (EM + EP)] * 2, thisAXDiff, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
+            thisAXDiff = GVP.myFill_between([xStart, xEnd], [(EMSys - EPSys) / (EMSys + EPSys)] * 2, thisAXDiff, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
+            thisAXDiff.axhline(y=0, linestyle=':', alpha=0.2, color='black')
         # outside loop
         thisAX.set_xlabel(f'{temp}')
         thisAX.get_xaxis().set_ticks([])
@@ -279,7 +280,7 @@ def main(args: list):
         thisAXDiff.set_xticklabels([])
         thisAXDiff.get_xaxis().set_ticks([])
         figDiff.supxlabel('Temperature (MeV)')
-        figDiff.supylabel('$M^{+} - M^{-}$ (GeV)')
+        figDiff.supylabel('$\\frac{M^{-} - M^{+}}{M^{-} + M^{+}}$')
 
     # Doing the legend
     # Add a line for experiment
@@ -291,7 +292,7 @@ def main(args: list):
         allLegends.append('Exp.')
         ax[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['posXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
         axM[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
-        axDiff[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
+        axDiff[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['negXOffset']*1.1, 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
     # Now determine  and set y-limits and y-ticks
     # determine scales indivudually
     # so can set according to the largest
