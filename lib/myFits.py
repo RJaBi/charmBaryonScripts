@@ -1,5 +1,6 @@
 
 from typing import List
+import numpy as np
 
 
 def makeFitWins(fitMin: int, fitMax: int, Nt: int, twoSided=True):
@@ -51,17 +52,37 @@ def getWinTicks(ax, wins: List[str]) -> List[str]:
     """
     # Getting all the ticks
     startTicks = []
+    # Just a list of the start points
+    starts = []
+    # and how many fit windows for that start
+    counts = []
     for ii, w in enumerate(wins):
         wstart = int(w.split('-')[0])
         if ii == 0:
             start = wstart
             startTicks.append(str(wstart))
+            starts.append(str(wstart))
+            counts.append(1)
         else:
             if wstart > start:
                 start = wstart
                 startTicks.append(str(wstart))
+                starts.append(str(wstart))
+                counts.append(1)
             else:
                 startTicks.append('')
+                counts[-1] = counts[-1] + 1
+    # So now startTicks is a list, putting the startpoint at the 1st window
+    # We want to move it to the middle of that region
+    middles = np.asarray(counts)/2
+    # So do a new startTicks
+    startTicks = []
+    # and also put in the actual middle, not just closest
+    xticks = []
+    for ss, st in enumerate(starts):
+        startTicks.append(st)
+        xPos = np.sum(counts[:ss]) + middles[ss]
+        xticks.append(xPos)
     # vertically offsetting every 2nd labelled
     tickCount = 0
     for tt, st in enumerate(startTicks):
@@ -70,4 +91,6 @@ def getWinTicks(ax, wins: List[str]) -> List[str]:
         if tickCount % 2 != 0:
             startTicks[tt] = '\n' + st
         tickCount = tickCount + 1
+    # Changing the ticks to only be the ones we want
+    ax.set_xticks(xticks)
     return startTicks

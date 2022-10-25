@@ -4,6 +4,7 @@ import sys
 import numpy as np  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 from matplotlib.backends.backend_pdf import PdfPages  # type: ignore
+import matplotlib as mpl
 import gvar as gv  # type: ignore
 import lsqfit  # type: ignore
 import pickle
@@ -505,22 +506,22 @@ def main(args: list):
         Sax1.xaxis.set_ticklabels(FT.getWinTicks(Sax1, wins), fontsize=16)
         Sax1 = FT.plotWinLines(Sax1, wins)
         # Sax1.set_xlim([wins[0], None])
-        Sax1.set_xlim([-1, None])
+        Sax1.set_xlim([-1, len(wins)+1])
         # Sax1.xaxis.set_ticklabels([])
-        Sax1.set_ylabel('$a\,E_{plat}^{+}$')  # noqa: W605
+        Sax1.set_ylabel('$a_\\tau\,E_{plat}^{+}$', fontsize=36)  # noqa: W605
         # Sax1.legend(loc='best', ncol=2)
-        Sax1.set_xlabel('$\\tau_{min}$')
+        Sax1.set_xlabel('$\\tau_{min}$', fontsize=36)
         pdf.savefig(Sfig)
         plt.close(Sfig)
         Sfig, Sax1 = plt.subplots(figsize=(16.6, 11.6))
         Sax1.errorbar(wins, y=gv.mean(eEMF), yerr=gv.sdev(eEMF), marker='d', linestyle='')
         Sax1 = FT.plotWinLines(Sax1, wins)
-        Sax1.set_xlim([-1, None])
+        Sax1.set_xlim([-1, len(wins)+1])
         # Sax1.set_xlim([wins[0], None])
         Sax1.xaxis.set_ticklabels(FT.getWinTicks(Sax1, wins), fontsize=16)
-        Sax1.set_ylabel('$a\,E_{plat}^{-}$')  # noqa: W605
+        Sax1.set_ylabel('$a_\\tau\,E_{plat}^{-}$', fontsize=36)  # noqa: W605
         # Sax1.legend(loc='best', ncol=2)
-        Sax1.set_xlabel('$\\tau_{min}$')
+        Sax1.set_xlabel('$\\tau_{min}$', fontsize=36)
         pdf.savefig(Sfig)
         plt.close(Sfig)
         # Neg parity E-
@@ -531,7 +532,7 @@ def main(args: list):
         ax1 = GVP.myHSpan(pValAved_plat[0], ax1, ls='--', colour='olive', lab='$E^{+}_{PVal-plat} = ' + f'{pValAved_plat[0]}$')  # noqa: E501
         ax1 = FT.plotWinLines(ax1, wins)
         # finalising
-        ax1.set_xlim([-1, None])
+        ax1.set_xlim([-1, len(wins)+1])
         # ax1.set_xlim([wins[0], None])
         ax2.plot(wins, wf[0, :], marker='+', linestyle='')
         # ax2.set_xticklabels(wins, rotation=45, ha='right')
@@ -542,9 +543,9 @@ def main(args: list):
             tickLab.set_visible(False)
         for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
             tickLab.set_visible(False)
-        # ax1.set_ylim(params['analysis']['EFitLim'])
-        ax1.set_ylabel('$a\,E_{plat}^{+}$')  # noqa: W605
-        ax2.set_xlabel('$\\tau_{min}$')
+        ax1.set_ylim(params['analysis']['EFitLim'])
+        ax1.set_ylabel('$a_\\tau\,E_{plat}^{+}$', fontsize=36)  # noqa: W605
+        ax2.set_xlabel('$\\tau_{min}$', fontsize=36)
         ax2.set_ylabel('weight')
         ax1.legend(loc='best', ncol=2)
         # finalising the second plot
@@ -556,7 +557,7 @@ def main(args: list):
         ax1 = FT.plotWinLines(ax1, wins)
         # finalising
         # ax1.set_xlim([wins[1], None])
-        ax1.set_xlim([-1, None])
+        ax1.set_xlim([-1, len(wins)+1])
         ax2.plot(wins, wf[1, :], marker='+', linestyle='')
         ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
         ax2.set_xticklabels(wins, rotation=90)  # , ha='right')
@@ -565,8 +566,8 @@ def main(args: list):
             tickLab.set_visible(False)
         for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
             tickLab.set_visible(False)
-        ax1.set_ylabel('$a\,E_{plat}^{-}$')  # noqa: W605
-        ax2.set_xlabel('$\\tau_{min}$')
+        ax1.set_ylabel('$a_\\tau\,E_{plat}^{-}$', fontsize=36)  # noqa: W605
+        ax2.set_xlabel('$\\tau_{min}$', fontsize=36)
         ax2.set_ylabel('weight')
         ax1.legend(loc='best', ncol=2)
         # Plot the effective mass model averaging
@@ -577,7 +578,7 @@ def main(args: list):
         ax1 = FT.plotWinLines(ax1, wins)
         # finalising
         # ax1.set_xlim([wins[0], None])
-        ax1.set_xlim([-1, None])
+        ax1.set_xlim([-1, len(wins)+1])
         ax2.plot(wins, prMD_plat, marker='+', linestyle='')  # type: ignore  # noqa: F821
         ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
         ax2.set_xticklabels(wins, rotation=90)  # , ha='right')
@@ -586,8 +587,8 @@ def main(args: list):
             tickLab.set_visible(False)
         for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
             tickLab.set_visible(False)
-        # ax1.set_ylim(params['analysis']['EFitLim'])
-        ax1.set_ylabel('$a\,E_{plat}^{+}$')  # noqa: W605
+        ax1.set_ylim(params['analysis']['EFitLim'])
+        ax1.set_ylabel('$a_\\tau\,E_{plat}^{+}$', fontsize=36)  # noqa: W605
         ax2.set_xlabel('fit window')
         ax2.set_ylabel('weight')
         ax1.legend(loc='best', ncol=2)
@@ -601,7 +602,7 @@ def main(args: list):
         ax1 = FT.plotWinLines(ax1, wins)
         # finalising
         # ax1.set_xlim([wins[1], None])
-        ax1.set_xlim([-1, None])
+        ax1.set_xlim([-1, len(wins)+1])
         ax2.plot(wins, prMD_plat, marker='+', linestyle='')  # type: ignore  # noqa: F821
         # ax2.set_xticklabels(wins, rotation=45, ha='right')
         ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
@@ -611,8 +612,8 @@ def main(args: list):
             tickLab.set_visible(False)
         for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
             tickLab.set_visible(False)
-        # ax1.set_ylim(params['analysis']['EFitLim'])
-        ax1.set_ylabel('$a\,E_{plat}^{-}$')  # noqa: W605
+        ax1.set_ylim(params['analysis']['EFitLim'])
+        ax1.set_ylabel('$a_\\tau\,E_{plat}^{-}$', fontsize=36)  # noqa: W605
         ax2.set_xlabel('fit window')
         ax2.set_ylabel('weight')
         ax1.legend(loc='best', ncol=2)
@@ -753,10 +754,10 @@ def main(args: list):
         Sfig, Sax1 = plt.subplots(figsize=(16.6, 11.6))
         Sax1 = GVP.plot_gvEbar(np.asarray(wins), np.asarray(fEP), Sax1, 'd', '')
         # Sax1.set_xlim([wins[0], None])
-        Sax1.set_xlim([-1, None])
+        Sax1.set_xlim([-1, len(wins)+1])
         Sax1.xaxis.set_ticklabels(FT.getWinTicks(Sax1, wins), fontsize=16)
-        Sax1.set_ylabel('$a\,E_{fit}^{+}$')  # noqa: W605
-        Sax1.set_xlabel('$\\tau_{min}$')
+        Sax1.set_ylabel('$a_\\tau\,E_{fit}^{+}$', fontsize=36)  # noqa: W605
+        Sax1.set_xlabel('$\\tau_{min}$', fontsize=36)
         # Sax1.legend(loc='best', ncol=2)
         pdf.savefig(Sfig)
         plt.close(Sfig)
@@ -764,10 +765,10 @@ def main(args: list):
         Sfig, Sax1 = plt.subplots(figsize=(16.6, 11.6))
         Sax1 = GVP.plot_gvEbar(np.asarray(wins), np.asarray(fEM), Sax1, 'd', '')
         # Sax1.set_xlim([wins[0], None])
-        Sax1.set_xlim([-1, None])
+        Sax1.set_xlim([-1, len(wins)+1])
         Sax1.xaxis.set_ticklabels(FT.getWinTicks(Sax1, wins), fontsize=16)
-        Sax1.set_ylabel('$a\,E_{fit}^{-}$')  # noqa: W605
-        Sax1.set_xlabel('$\\tau_{min}$')
+        Sax1.set_ylabel('$a_\\tau\,E_{fit}^{-}$', fontsize=36)  # noqa: W605
+        Sax1.set_xlabel('$\\tau_{min}$', fontsize=36)
         # Sax1.legend(loc='best', ncol=2)
         pdf.savefig(Sfig)
         plt.close(Sfig)
@@ -785,9 +786,9 @@ def main(args: list):
         ax1_t = FT.plotWinLines(ax1_t, wins)
         # finalising
         # ax1.set_xlim([wins[0], None])
-        ax1.set_xlim([-1, None])
+        ax1.set_xlim([-1, len(wins)+1])
         # ax1_t.set_xlim([wins[0], None])
-        ax1_t.set_xlim([-1, None])
+        ax1_t.set_xlim([-1, len(wins)+1])
         ax2.plot(wins, prMD, marker='d', linestyle='')
         ax2.plot(wins, wf[0, :], marker='+', linestyle='')
         # ax2.set_xticklabels(wins, rotation=45, ha='right')
@@ -810,10 +811,10 @@ def main(args: list):
             tickLab.set_visible(False)
         ax1.set_ylim(params['analysis']['EFitLim'])
         ax1_t.set_ylim(params['analysis']['EFitLim'])
-        ax1.set_ylabel('$a\,E_{fit}^{+}$')  # noqa: W605
+        ax1.set_ylabel('$a_\\tau\,E_{fit}^{+}$', fontsize=36)  # noqa: W605
         ax2.set_xlabel('fit window')
         ax2.set_ylabel('weight')
-        ax1_t.set_ylabel('$a\,E_{fit}^{-}$')  # noqa: W605
+        ax1_t.set_ylabel('$a_\\tau\,E_{fit}^{-}$', fontsize=36)  # noqa: W605
         ax2_t.set_xlabel('fit window')
         ax2_t.set_ylabel('weight')
         ax1.legend(loc='best', ncol=2)
@@ -842,8 +843,8 @@ def main(args: list):
         ax1 = effEPlot(x, effE, ax1, hoz, ma='d', lab=None, ls='', hozColour=hozCols, hozLabs=hozLabs, hozls=hozls)  # noqa: E501
         # Finalising
         ax1.legend(loc='best', ncol=2)
-        ax1.set_ylabel('$a\,E^{' + f'{ana.replace("_", ".").replace("x", "X")}' + '}(\\tau)$')  # noqa: W605, E501
-        ax1.set_xlabel('$\\tau / a_\\tau$')  # noqa: W605
+        ax1.set_ylabel('$a_\\tau\,E^{' + f'{ana.replace("_", ".").replace("x", "X")}' + '}(\\tau)$', fontsize=36)  # noqa: W605, E501
+        ax1.set_xlabel('$\\tau / a_\\tau$', fontsize=36)  # noqa: W605
         ax1.set_ylim(params['analysis']['effEyLim'])
         # effEYLim = ax1.get_ylim()
         pdf.savefig(fig)
@@ -867,7 +868,7 @@ def main(args: list):
         ax3 = GVP.myHSpan(AICValAved[1], ax3, ls=':', colour='tab:purple',  lab='$E^{-}_{AIC} = ' + f'{AICValAved[1]}$')  # noqa: E501
         # finalising
         # ax1.set_xlim([sortWins[0], None])
-        ax1.set_xlim([-1, None])
+        ax1.set_xlim([-1, len(sortWins) + 1])
         ax2.plot(sortWins, sortPrMD, marker='d', linestyle='')
         ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
         ax2.set_xticklabels(sortWins, rotation=90)  # , ha='right')
@@ -879,8 +880,8 @@ def main(args: list):
         # ax1.set_ylim(params['analysis']['EFitLim'])
         ax1.legend(loc='best', ncol=2)
         ax3.legend(loc='best', ncol=2)
-        ax1.set_ylabel('$a\,E_{fit}^{+}$')  # noqa: W605
-        ax3.set_ylabel('$a\,E_{fit}^{-}$')  # noqa: W605
+        ax1.set_ylabel('$a_\\tau\,E_{fit}^{+}$', fontsize=36)  # noqa: W605
+        ax3.set_ylabel('$a_\\tau\,E_{fit}^{-}$', fontsize=36)  # noqa: W605
         ax2.set_xlabel('fit window')
         ax2.set_ylabel('weight')
         pdf.savefig(fig)
@@ -898,7 +899,7 @@ def main(args: list):
         ax1 = GVP.myHSpan(pValAved[0], ax1, colour='tab:red', ls='--',  lab='$E^{+}_{pval} = ' + f'{pValAved[0]}$')  # noqa: E501
         # finalising
         # ax1.set_xlim([sortWins[0], None])
-        ax1.set_xlim([-1, None])
+        ax1.set_xlim([-1, len(sortWins) + 1])
         ax1.legend(loc='best', ncol=2)
         ax2.plot(sortWins, sortWfP, marker='+', linestyle='')
         # ax2.set_xticklabels(sortWins, rotation=45, ha='right')
@@ -909,7 +910,7 @@ def main(args: list):
             tickLab.set_visible(False)
         for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
             tickLab.set_visible(False)
-        ax1.set_ylabel('$a\,E_{fit}^{+}$')  # noqa: W605
+        ax1.set_ylabel('$a_\\tau\,E_{fit}^{+}$', fontsize=36)  # noqa: W605
         ax2.set_xlabel('fit window')
         ax2.set_ylabel('weight')
         pdf.savefig(fig)
@@ -924,7 +925,7 @@ def main(args: list):
         ax1 = GVP.myHSpan(pValAved[1], ax1, colour='tab:green', ls=':',  lab='$E^{-}_{pval} = ' + f'{pValAved[1]}$')  # noqa: E501
         # finalising
         # ax1.set_xlim([sortWins[0], None])
-        ax1.set_xlim([-1, None])
+        ax1.set_xlim([-1, len(sortWins) + 1])
         ax1.legend(loc='best', ncol=2)
         ax2.plot(sortWins, sortWfP, marker='+', linestyle='')
         ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
@@ -934,7 +935,7 @@ def main(args: list):
             tickLab.set_visible(False)
         for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
             tickLab.set_visible(False)
-        ax1.set_ylabel('$a\,E_{fit}^{-}$')  # noqa: W605
+        ax1.set_ylabel('$a_\\tau\,E_{fit}^{-}$', fontsize=36)  # noqa: W605
         ax2.set_xlabel('fit window')
         ax2.set_ylabel('weight')
         pdf.savefig(fig)
@@ -1046,13 +1047,14 @@ def main(args: list):
         Sfig, Sax1 = plt.subplots(figsize=(16.6, 11.6))
         Sax1 = GVP.plot_gvEbar(np.asarray(wins), np.asarray(fEP), Sax1, 'd', '')
         # Sax1.set_xlim([wins[0], None])
-        Sax1.set_xlim([-1, None])
+        Sax1.set_xlim([-1, len(wins) + 1])
         Sax1 = FT.plotWinLines(Sax1, wins)
         Sax1.xaxis.set_ticklabels(FT.getWinTicks(Sax1, wins), fontsize=16)
-        Sax1.set_ylabel('$a\,E_{Rfit}^{+}$')  # noqa: W605
+        Sax1.set_ylabel('$a_\\tau\,E_{Rfit}^{+}$', fontsize=36)  # noqa: W605
         Sax1 = GVP.myHSpan(pValAved[0], Sax1, colour='tab:red', ls='--', lab='$E^{+}_{pval} = ' + f'{pValAved[0]}$')  # noqa: E501
         Sax1 = GVP.myHSpan(AICValAved[0], Sax1, ls='--', colour='tab:orange', lab='$E^{+}_{AIC} = ' + f'{AICValAved[0]}$')  # noqa: E501
-        Sax1.set_xlabel('$\\tau_{min}$')
+        Sax1.set_ylim(params['analysis']['EFitLim'])
+        Sax1.set_xlabel('$\\tau_{min}$', fontsize=36)
         Sax1.legend(loc='best', ncol=2)
         pdf.savefig(Sfig)
         plt.close(Sfig)
@@ -1061,12 +1063,12 @@ def main(args: list):
         Sax1 = GVP.plot_gvEbar(np.asarray(wins), np.asarray(fEM), Sax1, 'd', '')
         Sax1 = FT.plotWinLines(Sax1, wins)
         # Sax1.set_xlim([wins[0], None])
-        Sax1.set_xlim([-1, None])
+        Sax1.set_xlim([-1, len(wins)+1])
         Sax1.xaxis.set_ticklabels(FT.getWinTicks(Sax1, wins), fontsize=16)
         Sax1 = GVP.myHSpan(pValAved[1], Sax1, ls=':', colour='tab:green', lab='$E^{-}_{pval} = ' + f'{pValAved[1]}$')  # noqa: E501
         Sax1 = GVP.myHSpan(AICValAved[1], Sax1, ls=':', colour='tab:purple', lab='$E^{-}_{AIC} = ' + f'{AICValAved[1]}$')  # noqa: E501
-        Sax1.set_ylabel('$a\,E_{Rfit}^{-}$')  # noqa: W605
-        Sax1.set_xlabel('$\\tau_{min}$')
+        Sax1.set_ylabel('$a_\\tau\,E_{Rfit}^{-}$', fontsize=36)  # noqa: W605
+        Sax1.set_xlabel('$\\tau_{min}$', fontsize=36)
         Sax1.legend(loc='best', ncol=2)
         # Sax1.set_title('test')
         pdf.savefig(Sfig)
@@ -1085,9 +1087,9 @@ def main(args: list):
         ax1_t = FT.plotWinLines(ax1_t, wins)
         # finalising
         # ax1.set_xlim([wins[0], None])
-        ax1.set_xlim([-1, None])
+        ax1.set_xlim([-1, len(wins)+1])
         # ax1_t.set_xlim([wins[0], None])
-        ax1_t.set_xlim([-1, None])
+        ax1_t.set_xlim([-1, len(wins)+1])
         ax2.plot(wins, prMD, marker='d', linestyle='')
         ax2.plot(wins, wf[0, :], marker='+', linestyle='')
         ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
@@ -1107,10 +1109,10 @@ def main(args: list):
             tickLab.set_visible(False)
         # ax1.set_ylim(params['analysis']['EFitLim'])
         # ax1_t.set_ylim(params['analysis']['EFitLim'])
-        ax1.set_ylabel('$a\,E_{fit}^{+}$')  # noqa: W605
+        ax1.set_ylabel('$a_\\tau\,E_{fit}^{+}$', fontsize=36)  # noqa: W605
         ax2.set_xlabel('fit window')
         ax2.set_ylabel('weight')
-        ax1_t.set_ylabel('$a\,E_{fit}^{-}$')  # noqa: W605
+        ax1_t.set_ylabel('$a_\\tau\,E_{fit}^{-}$', fontsize=36)  # noqa: W605
         ax2_t.set_xlabel('fit window')
         ax2_t.set_ylabel('weight')
         ax1.legend(loc='best', ncol=2)
@@ -1141,8 +1143,8 @@ def main(args: list):
         ax1 = effEPlot(x, effE, ax1, hoz, ma='d', lab=None, ls='', hozColour=hozCols, hozLabs=hozLabs, hozls=hozls)  # noqa: E501
         # Finalising
         ax1.legend(loc='best', ncol=2)
-        ax1.set_ylabel('$a\,E^{' + f'{ana.replace("_", ".").replace("x", "X")}' + '}(\\tau)$')  # noqa: W605, E501
-        ax1.set_xlabel('$\\tau / a_\\tau$')  # noqa: W605
+        ax1.set_ylabel('$a_\\tau\,E^{' + f'{ana.replace("_", ".").replace("x", "X")}' + '}(\\tau)$', fontsize=36)  # noqa: W605, E501
+        ax1.set_xlabel('$\\tau / a_\\tau$', fontsize=36)  # noqa: W605
         ax1.set_ylim(params['analysis']['effEyLim'])
         # effEYLim = ax1.get_ylim()
         pdf.savefig(fig)
@@ -1166,7 +1168,7 @@ def main(args: list):
         ax3 = GVP.myHSpan(AICValAved[1], ax3, ls=':', colour='tab:purple',  lab='$E^{-}_{AIC} = ' + f'{AICValAved[1]}$')  # noqa: E501
         # finalising
         # ax1.set_xlim([sortWins[0], None])
-        ax1.set_xlim([-1, None])
+        ax1.set_xlim([-1, len(sortWins) + 1])
         ax2.plot(sortWins, sortPrMD, marker='d', linestyle='')
         ax2.set_xticklabels(sortWins, rotation=90)  # , ha='right')
         ax1.tick_params(labelbottom=False, labeltop=True, top='on', direction='out')
@@ -1179,8 +1181,8 @@ def main(args: list):
         # ax1.set_ylim(params['analysis']['EFitLim'])
         ax1.legend(loc='best', ncol=2)
         ax3.legend(loc='best', ncol=2)
-        ax1.set_ylabel('$a\,E_{fit}^{+}$')  # noqa: W605
-        ax3.set_ylabel('$a\,E_{fit}^{-}$')  # noqa: W605
+        ax1.set_ylabel('$a_\\tau\,E_{fit}^{+}$', fontsize=36)  # noqa: W605
+        ax3.set_ylabel('$a_\\tau\,E_{fit}^{-}$', fontsize=36)  # noqa: W605
         ax2.set_xlabel('fit window')
         ax2.set_ylabel('weight')
         pdf.savefig(fig)
@@ -1198,7 +1200,7 @@ def main(args: list):
         ax1 = GVP.myHSpan(pValAved[0], ax1, colour='tab:red', ls='--',  lab='$E^{+}_{pval} = ' + f'{pValAved[0]}$')  # noqa: E501
         # finalising
         # ax1.set_xlim([sortWins[0], None])
-        ax1.set_xlim([-1, None])
+        ax1.set_xlim([-1, len(sortWins) + 1])
         ax1.legend(loc='best', ncol=2)
         ax2.plot(sortWins, sortWfP, marker='+', linestyle='')
         ax2.set_xticklabels(sortWins, rotation=90)  # , ha='right')
@@ -1209,7 +1211,7 @@ def main(args: list):
         for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
             tickLab.set_visible(False)
         # ax2.set_xticklabels(sortWins, rotation=45, ha='right')
-        ax1.set_ylabel('$a\,E_{fit}^{+}$')  # noqa: W605
+        ax1.set_ylabel('$a_\\tau\,E_{fit}^{+}$', fontsize=36)  # noqa: W605
         ax2.set_xlabel('fit window')
         ax2.set_ylabel('weight')
         pdf.savefig(fig)
@@ -1236,7 +1238,7 @@ def main(args: list):
             tickLab.set_visible(False)
         for tickLab in ax2.get_xaxis().get_ticklabels()[::2]:  # Getting every 2nd xtick label
             tickLab.set_visible(False)
-        ax1.set_ylabel('$a\,E_{fit}^{-}$')  # noqa: W605
+        ax1.set_ylabel('$a_\\tau\,E_{fit}^{-}$', fontsize=36)  # noqa: W605
         ax2.set_xlabel('fit window')
         ax2.set_ylabel('weight')
         pdf.savefig(fig)
@@ -1250,4 +1252,9 @@ def main(args: list):
 
 if __name__ == '__main__':
     mo.initBigPlotSettings()
+    # mpl.rcParams['lines.markersize'] = 16.0
+    # For Poster/Presentation
+    # mpl.rcParams['ytick.labelsize'] = 32
+    # mpl.rcParams['xtick.labelsize'] = 32
+    mpl.rcParams['font.size'] = 36
     main(sys.argv[1:])
