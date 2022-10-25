@@ -139,12 +139,8 @@ def main(args: list):
             colM = 'tab:orange'
         colExp = 'tab:grey'
         # Plot the lattice data points
-        if count == 0:
-            ax = GVP.plot_gvEbar(xStr, lP, ax, col=colP, ma='d', lab='Positive Parity')
-            ax = GVP.plot_gvEbar(xStr, lM, ax, col=colM, ma='*', lab='Negative Parity')
-        else:
-            ax = GVP.plot_gvEbar(xStr, lP, ax, col=colP, ma='d')
-            ax = GVP.plot_gvEbar(xStr, lM, ax, col=colM, ma='*')
+        ax = GVP.plot_gvEbar(xStr, lP, ax, col=colP, ma='d')
+        ax = GVP.plot_gvEbar(xStr, lM, ax, col=colM, ma='*')
         if 'lPSys' in dataDF.keys():
             # Add the systematic if it exists
             ax = GVP.plot_gvEbar(xStr, lPSys, ax, col=colP, alpha=0.5)
@@ -165,7 +161,14 @@ def main(args: list):
     ax.set_xlabel('Baryon')
     ax.set_ylabel(f'Mass ({unit})')
     handles, labels = ax.get_legend_handles_labels()
-    handles = [h[0] if isinstance(h, mpl.container.ErrorbarContainer) else h for h in handles]
+    # Add pos/neg parity symbols to legend manually
+    line_dashed = mpl.lines.Line2D([], [], color='black', linestyle='', label='Positive Parity', marker='d', markersize=12)  # noqa: E501
+    handles.append(line_dashed)
+    labels.append('Positive Parity')
+    # and neg
+    line_dashed = mpl.lines.Line2D([], [], color='black', linestyle='', label='Negative Parity', marker='*', markersize=16)  # noqa: E501
+    handles.append(line_dashed)
+    labels.append('Negative Parity')
     ax.legend(handles, labels, loc='upper left', ncol=2)
     pdf.savefig(fig)
     plt.show()
