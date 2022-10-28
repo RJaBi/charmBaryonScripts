@@ -112,9 +112,12 @@ def main(args: list):
     for ma in params['modelAverages']['mALabels']:
         Nt = params['modelAverages'][ma]['Nt']
         OP = params['modelAverages'][ma]['operator']
-        fTypes = params['modelAverages'][ma]['fTypes']
-        if fTypes[0] == 'all':
-            fTypes = params['modelAverages']['allFTypes']
+        EPfTypes = params['modelAverages'][ma]['EPfTypes']
+        EMfTypes = params['modelAverages'][ma]['EMfTypes']
+        if EPfTypes[0] == 'all':
+            EPfTypes = params['modelAverages']['allFTypes']
+        if EMfTypes[0] == 'all':
+            EMfTypes = params['modelAverages']['allFTypes']
         if 'massCSV' in params.keys():
             # Cut the spreadsheet to this specific hadron/temperature
             # and get the methods chosen for EP and EM
@@ -132,9 +135,9 @@ def main(args: list):
         # print(cmd)
         # os.system(cmd)
         # Loading the central value
-        EP, EP_sysErr, EPSys, EPFTypes, EPFits = getSysErr(thisAnaDir, EPMethod, fTypes, '+')
+        EP, EP_sysErr, EPSys, EPFTypes, EPFits = getSysErr(thisAnaDir, EPMethod, EPfTypes, '+')
         # print(EP, EP_sysErr, EPSys, EPFTypes, EPFits)
-        EM, EM_sysErr, EMSys, EMFTypes, EMFits = getSysErr(thisAnaDir, EMMethod, fTypes, '-')
+        EM, EM_sysErr, EMSys, EMFTypes, EMFits = getSysErr(thisAnaDir, EMMethod, EMfTypes, '-')
         # print(EM, EM_sysErr, EMSys, EMFTypes, EMFits)
         # Update the csvDict for saving
         csvDict['anaDir'].append(thisAnaDir)
