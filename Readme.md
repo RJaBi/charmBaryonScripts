@@ -6,27 +6,30 @@ Example input files (for example only, they reference data which is not included
 
 The scripts themselves are in the 'scripts' folder
 
+Scripts are run using i.e. python scriptname.py tomlfile.toml
+
 ---
 
+# Figure Details
 * Figure 1
   * Plots the correlators
   * plotG.py
-* Figures 2-5
-  * Does fits to the correlators and model averages
-  * simpleFit.py
-* Figure 6
-  * Plots the spectrum of masses against experiment
-  * plotSpectrum.py
-* Figures 8-10
-  * Plots the spectrum of masses as a function of temperature
-  * simplePlotEMP.py
-* Figure 11
-  * Considers the Gell-Mann-Okubo relation
-  * GellMannOkubo.py
-* Figures 12-14
+* Figures 2-4
   * Does the parity-doubling R-ratio analysis
   * gvarParityRatio.py
-
+  * plotInflectionPoints.py
+* Figures 5-8
+  * Does fits to the correlators and model averages
+  * simpleFit.py
+* Figure 9
+  * Plots the spectrum of masses against experiment
+  * plotSpectrum.py
+* Figures 10-13
+  * Plots the spectrum of masses as a function of temperature
+  * simplePlotEMP.py
+* Figure 14
+  * Considers the Gell-Mann-Okubo relation
+  * GellMannOkubo.py
 
 ---
 
