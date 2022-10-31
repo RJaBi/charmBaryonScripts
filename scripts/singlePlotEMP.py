@@ -292,7 +292,7 @@ def main(args: list):
         allLegends.append('Exp.')
         ax[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['posXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
         axM[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
-        axDiff[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['negXOffset']*1.1, 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
+        axDiff[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['negXOffset']*1.15, 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
     # Now determine  and set y-limits and y-ticks
     # determine scales indivudually
     # so can set according to the largest
