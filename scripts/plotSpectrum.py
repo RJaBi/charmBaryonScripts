@@ -171,7 +171,7 @@ def main(args: list):
     labels.append('Negative Parity')
     ax.legend(handles, labels, loc='upper left', ncol=2)
     pdf.savefig(fig)
-    plt.show()
+    # plt.show()
     pdf.close()
     sys.exit('Finished')
 
