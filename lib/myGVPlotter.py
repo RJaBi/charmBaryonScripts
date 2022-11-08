@@ -1,6 +1,7 @@
 import numpy as np  # type: ignore
 import gvar as gv  # type: ignore
 
+colours = ['tab:blue', 'tab:green', 'tab:purple', 'tab:pink', 'tab:olive', 'tab:orange', 'tab:red', 'tab:brown', 'tab:gray', 'tab:cyan']
 
 def plot_gvEbar(x: np.ndarray, y: np.ndarray, ax, ma=None, ls=None, lab=None, col=None, alpha=1):
     """

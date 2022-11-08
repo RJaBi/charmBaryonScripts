@@ -76,6 +76,8 @@
    * * Vertical spans of gvars
  * myFill_between(x: np.ndarray, y: np.ndarray, ax, ma=None, ls=None, lab=None, alpha=0.15, colour=None):
    * * Fill_between for gvar
+ * colours
+   * * A variable containing a list of the 10 tabuleau 10 colours
 
 ### myFits
 *Functions used in multiple fitting programs*
