@@ -245,7 +245,7 @@ def pValueModelAve(Q: np.ndarray, fitParams: List[Any]) -> Tuple[np.ndarray, np.
     sysErr = []
     weights = []
     for ii, fp in enumerate(fitParams):
-        errFit2 = np.float128(gv.sdev(fp))**(-2.0)
+        errFit2 = np.float64(gv.sdev(fp))**(-2.0)
         wf = Q * errFit2 / np.sum(Q * errFit2)
         aved.append(np.sum(wf * fp))
         statErr.append(np.sum(wf * gv.sdev(fp)**2.0))
