@@ -173,17 +173,22 @@ def main(args: list):
     # Iterate over different temperatures
     cols = params['latMass']['colours']
     marks = params['latMass']['markers']
+    # for the legend
     allHandlesDict: Dict[int, List[Any]] = {}
     allLegendsDict: Dict[int, List[Any]] = {}
+    expDict: Dict[int, List[bool]] = {}
     # Setting up the x-axis
     vertDict = {}
     vertCountDict = {}
+    
     uniVert = np.unique(params['latMass']['vertGroup'], return_counts=True)
     xRan = [0, 1]
     for ii in range(0, params['latMass']['vertSplit']):
         vertDict.update({uniVert[0][ii]: uniVert[1][ii]})
+        #For the legend
         allHandlesDict.update({uniVert[0][ii]: []})
         allLegendsDict.update({uniVert[0][ii]: []})
+        expDict.update({uniVert[0][ii]: [False, False]})
     for tt, temp in enumerate(temperatures):
         for ii in range(0, params['latMass']['vertSplit']):
             vertCountDict.update({uniVert[0][ii]: 1})
@@ -198,10 +203,12 @@ def main(args: list):
             # as lines
             if params['eMass'][aName]['P'] != '':
                 physEP = gv.gvar(params['eMass'][aName]['P'])
+                expDict[thisVGroup][0] = True
             else:
                 physEP = gv.gvar(None)
             if params['eMass'][aName]['M'] != '':
                 physEM = gv.gvar(params['eMass'][aName]['M'])
+                expDict[thisVGroup][1] = True
             else:
                 physEM = gv.gvar(None)
             thisAX = GVP.myHSpan(physEP, thisAX, colour=cols[aa], alpha=0.8)
@@ -281,7 +288,6 @@ def main(args: list):
         thisAXDiff.get_xaxis().set_ticks([])
         figDiff.supxlabel('Temperature (MeV)')
         figDiff.supylabel('$\\frac{M^{-} - M^{+}}{M^{-} + M^{+}}$')
-
     # Doing the legend
     # Add a line for experiment
     for k, v in allHandlesDict.items():
@@ -290,9 +296,22 @@ def main(args: list):
         line_dashed = Line2D([], [], color='black', linestyle='--', label='Exp.')  # noqa: E501
         allHandles.append(line_dashed)
         allLegends.append('Exp.')
-        ax[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['posXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
-        axM[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
-        axDiff[k, len(temperatures) - 1].legend(allHandles, allLegends, bbox_to_anchor=(params['negXOffset']*1.15, 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
+        # Not putting Exp in legend if there is no exp
+        if expDict[k][0]:
+            PosOffset = len(allLegends)
+            DiffOffset = len(allLegends)
+        else:
+           PosOffset = -1
+           DiffOffset = -1
+        if expDict[k][1]:
+            NegOffset = len(allLegends)
+            DiffOffset = DiffOffset
+        else:
+           NegOffset = -1
+           DiffOffset = -1
+        ax[k, len(temperatures) - 1].legend(allHandles[:PosOffset], allLegends[:PosOffset], bbox_to_anchor=(params['posXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
+        axM[k, len(temperatures) - 1].legend(allHandles[:NegOffset], allLegends[:NegOffset], bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
+        axDiff[k, len(temperatures) - 1].legend(allHandles[:DiffOffset], allLegends[:DiffOffset], bbox_to_anchor=(params['negXOffset']*1.15, 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
     # Now determine  and set y-limits and y-ticks
     # determine scales indivudually
     # so can set according to the largest
