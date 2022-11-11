@@ -5,6 +5,9 @@ import numpy as np  # type: ignore
 from scipy import linalg  # type: ignore
 import os
 import sympy as sp  # type: ignore
+import gvar as gv  # type: ignore
+
+gvarSeed = 100
 
 
 def strToLambda(string):
@@ -109,10 +112,11 @@ def labelNorm(G: np.ndarray, params):
     i.e. normallises whatever correlator is fed in
     G is 2dim. [ncon, NT]
     """
-    if params['cfuns']['norm'] == 'labelSrcAve':
-        G[:, :] = G[:, :] / np.mean(G[:, int(params['analysis']['src_t0'])])
-    else:
-        print(f'Not normallising on label level as norm == {params["cfuns"]["norm"]}')
+    if 'norm' in params['cfuns'].keys():
+        if params['cfuns']['norm'] == 'labelSrcAve':
+            G[:, :] = G[:, :] / np.mean(G[:, int(params['analysis']['src_t0'])])
+        else:
+            print(f'Not normallising on label level as norm == {params["cfuns"]["norm"]}')
     return G
 
 
@@ -221,7 +225,8 @@ def initCorrelators(params):
     """
     Loads all the correlators in, does the maths, etc
     """
-
+    # Sets the random seed for gvar
+    gv.ranseed(gvarSeed)
     # The labels for the correlators we're gonna load
     cfLabelsList = params['cfuns']['cfLabels']
     # We will store the loaded data, as well as the params for that data
@@ -428,6 +433,54 @@ def initCorrelators(params):
             # Put into the correlator dictionary
             cfDict['data'].update({lab: GR})
             cfDict['params'].update({lab: cfDict['params'][allVar[0]]})
+            cfLabelsList.append(lab)
+        elif 'resample' in math:
+            # I.e. the maths looks like
+            # 'resample:G11,G22:G11/G22'
+            # Then it calculates mean + resamples for G11, G22
+            func, aV, outVar = strToLambda(math)
+            myVar = {}
+            myVarGVResampled = {}
+            for var in aV:
+                # print(var, np.mean(cfDict['data'][var], axis=0)[0:5])
+                # sys.exit()
+                if var not in cfLabelsList:
+                    print('label '+var+' not in cfLabelsList:', cfLabelsList)
+                    sys.exit('Exiting')
+                # Grab the data
+                myVar.update({var: cfDict['data'][var]})
+                myVarGVResampled.update({var: np.empty(0)})
+            # Now make it into a tuple so can unpack
+            # Here we set the variables to be appropriate values
+            # First convert to gvar. Gets Mean + std err for each
+            myVarGV = gv.dataset.avg_data(myVar)
+            # Now get an iterator which draws random numbers from the distribution
+            # of our data
+            myVarGVIter = gv.raniter(myVarGV)
+            # Do the max of the number of nconf we had and 300
+            maxNcon = np.max([x.shape[0] for k, x in myVar.items()] + [300])
+            # and do the resampling
+            for nn in range(0, maxNcon):
+                for k, v in next(myVarGVIter).items():
+                    if nn == 0:
+                        myVarGVResampled[k] = np.zeros([maxNcon] + list(v.shape))
+                        print(myVarGVResampled[k].shape)
+                    # assign now initialised
+                    myVarGVResampled[k][nn, ...] = v
+            myVarResampled = []
+            # and repackage it like usual
+            for var in aV:
+                if var not in myVarGVResampled.keys():
+                    print('label '+var+' not in :myVarGVResampled', myVarGVResampled)
+                    sys.exit('Exiting')
+                # Grab the resampled data
+                myVarResampled.append(myVarGVResampled[var])
+            myVarTuple = tuple(myVarResampled)
+            # and call the function and put into correlator dictionary with label
+            cfDict['data'].update({lab: func(*myVarTuple)})
+            # print(lab, np.mean(cfDict['data'][lab], axis=0)[0:5])
+            cfDict['params'].update({lab: cfDict['params'][aV[0]]})
+            # And update the list of labels for 'correlators' we have
             cfLabelsList.append(lab)
         else:
             func, aV, outVar = strToLambda(math)
