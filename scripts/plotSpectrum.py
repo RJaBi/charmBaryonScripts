@@ -33,7 +33,10 @@ def main(args: list):
     # Setting x, limits to None if they were 'None' in the toml
     params = mo.refineXYLims(params, subDict=None)
 
-    unit = params['eMass']['unit']
+    if 'unit' in params.keys():
+        unit = params['unit']
+    else:
+        unit = params['eMass']['unit']
     # For conversion to physical units
     hbarc = 0.1973269804  # GeV fm
     a_s = gv.gvar(params['mAve']['as'])
@@ -45,7 +48,7 @@ def main(args: list):
     print('Analysis output directory is ', anaDir)
     if not os.path.exists(anaDir):
         os.makedirs(anaDir)
-    pdfName = os.path.join(anaDir, f'spectrumPlot.pdf')
+    pdfName = os.path.join(anaDir, 'spectrumPlot.pdf')
     print(f'Saving pdf to {pdfName}')
     pdf = PdfPages(pdfName)
     # ylimit of plots
@@ -58,20 +61,42 @@ def main(args: list):
     # Load the data
     # From csv if it exists
     if 'massCSV' in params['mAve'].keys():
-        print(f"Loading the csv from {params['mAve']['massCSV']}")
+        print(f"Loading the lattice csv from {params['mAve']['massCSV']}")
         massDF = pd.read_csv(params['mAve']['massCSV'])
         NT = params['mAve']['NT']
+    if 'expCSV' in params.keys():
+        print(f'loading the experimental csv from {params["expCSV"]}')
+        expDF = pd.read_csv(params['expCSV'])
+        expDF = expDF.rename(columns=lambda x: x.strip())
+        expCSV = True
+        # The experimental spreadsheet is in MeV
+        if unit == 'GeV':
+            PhysMult = 1.0/1000.0
+        else:
+            PhysMult = 1.0
     for aa, aLab in enumerate(params['mAve']['anaLab']):
         print(aa, aLab)
         thisDict = {}
-        # Getting the experimental numbers
-        if params['eMass'][aLab]['P'] != '':
-            thisDict.update({'eP': gv.gvar(params['eMass'][aLab]['P'])})
-        if params['eMass'][aLab]['M'] != '':
-            thisDict.update({'eM': gv.gvar(params['eMass'][aLab]['M'])})
-        thisDict.update({'J': params['eMass'][aLab]['J']})
-        thisDict.update({'quarks': params['eMass'][aLab]['quarks']})
-        name = params['eMass'][aLab]['name'] + 'J' + thisDict['J']
+        if expCSV:
+            aDF = expDF.query('Operator == @aLab')
+            EPAve = aDF['EPAve'].values[0]
+            if EPAve != 'nan':
+                thisDict.update({'eP': gv.gvar(EPAve) * PhysMult})
+            EMAve = aDF['EMAve'].values[0]
+            if EMAve != 'nan':
+                thisDict.update({'eM': gv.gvar(EMAve) * PhysMult})
+            thisDict.update({'J': aDF['J'].values[0]})
+            thisDict.update({'quarks': aDF['quarks'].values[0]})
+            name = aDF['name'].values[0] + 'J' + thisDict['J']
+        else:
+            # Getting the experimental numbers
+            if params['eMass'][aLab]['P'] != '':
+                thisDict.update({'eP': gv.gvar(params['eMass'][aLab]['P'])})
+            if params['eMass'][aLab]['M'] != '':
+                thisDict.update({'eM': gv.gvar(params['eMass'][aLab]['M'])})
+            thisDict.update({'J': params['eMass'][aLab]['J']})
+            thisDict.update({'quarks': params['eMass'][aLab]['quarks']})
+            name = params['eMass'][aLab]['name'] + 'J' + thisDict['J']
         # Now load the lattice data
         if 'massCSV' in params['mAve'].keys():
             # Load the mass data from here
@@ -93,6 +118,7 @@ def main(args: list):
             thisDict.update({'lPSys': EPSys})
             thisDict.update({'lMSys': EMSys})
         else:
+            # or load from individual fit methods
             posFile = os.path.join(params['mAve'][aLab]['pDir'], params['mAve'][aLab]['pFile'])
             posData = gv.load(posFile) * hbarc / a_t
             thisDict.update({'lP': posData[0]})
