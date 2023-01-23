@@ -23,7 +23,7 @@ import myModules as mo  # type: ignore # noqa: E402
 import myGVPlotter as GVP  # type: ignore # noqa: E402
 
 
-def setYlim(params, ax, axScale):
+def setYlim2Dim(params, ax, axScale):
     """
     Sets the ylims on each of the subplots
     such that they have the same scale
@@ -75,6 +75,7 @@ def setYlim(params, ax, axScale):
                     labelright=labelright
                 )
     if 'ylim' in params.keys():
+        print('Setting manually')
         return ax
     # Now set ylims
     print(f'ysScale is {yScale}')
@@ -123,6 +124,108 @@ def setYlim(params, ax, axScale):
     return ax, yScale
 
 
+def setYlim1Dim(params, ax, axScale, setY=True):
+    """
+    Sets the ylims on each of the subplots
+    such that they have the same scale
+    Set the scale on ax, using the scale of axScale
+    also returns the yScale
+    """
+    # First iterate over each axis
+    # yScale is ymax - ymin
+    yScale = 0
+    # Middles is the middle point of each subplot
+    middles = np.empty(np.shape(ax))
+    yLims = np.empty(list(np.shape(ax)) + [2])
+    # Determine the yscale
+    for vv in range(0, np.shape(ax)[0]):
+        # Need to consider the difference across all temperatures
+        if vv == 0:
+            ymin, ymax = axScale[0].get_ylim()
+        else:
+            thisYMin, thisYMax = axScale[vv].get_ylim()
+            if thisYMax > ymax:
+                ymax = thisYMax
+            if thisYMin < ymin:
+                ymin = thisYMin
+        hhvvYScale = abs(ymax - ymin)
+        if hhvvYScale > yScale:
+            yScale = hhvvYScale
+        middles[vv] = ymax - hhvvYScale / 2
+        yLims[vv, :] = ymin, ymax
+        if 'ylim' in params.keys():
+            print('Setting ylim from file')
+            # put y-axis tick labels on or not
+            if vv == 0:
+                labelleft = True
+                labelright = False
+            elif vv == np.shape(ax)[0] - 1:
+                labelleft = False
+                labelright = True
+            else:
+                labelleft = False
+                labelright = False
+            # and make ticks visible
+            if setY:
+                ax[vv].set_ylim(params['ylim'])
+                ax[vv].yaxis.set_tick_params(
+                    which='both',
+                    left='on',
+                    right='on',
+                    direction='inout',
+                    labelleft=labelleft,
+                    labelright=labelright
+                )
+    if 'ylim' in params.keys():
+        return ax
+    # Now set ylims
+    # print(f'ysScale is {yScale}')
+    # print('yLims', yLims)
+    # print('middles', middles)
+    for vv in range(0, np.shape(ax)[0]):
+        vertMid = np.median(middles[:])
+        yMinVV = vertMid - yScale / 2
+        yMaxVV = vertMid + yScale / 2
+        # Determine the middle point
+        ymin = vertMid - yScale / 2
+        ymax = vertMid + yScale / 2
+        # Shift it up/down if necessary
+        while ymax < yLims[vv, 1]:
+            ymax = ymax + 0.05 * yScale / 2
+            ymin = ymin + 0.05 * yScale / 2
+        while ymin > yLims[vv, 0]:
+            ymax = ymax - 0.05 * yScale / 2
+            ymin = ymin - 0.05 * yScale / 2
+        if ymin < yMinVV or ymax > yMaxVV:
+            yMaxVV = ymax
+        yMinVV = ymin
+        # and finally set it
+        # put y-axis tick labels on or not
+        if vv == 0:
+            labelleft = True
+            labelright = False
+        elif vv == np.shape(ax)[0] - 1:
+            labelleft = False
+            labelright = True
+        else:
+            labelleft = False
+            labelright = False
+        if setY:
+            # set the y limits
+            ax[vv].set_ylim([yMinVV, yMaxVV])
+            # and make ticks visible
+            ax[vv].yaxis.set_tick_params(
+                which='both',
+                left='on',
+                right='on',
+                direction='inout',
+                labelleft=labelleft,
+                labelright=labelright
+            )
+    # and return
+    return ax, yScale
+
+
 def main(args: list):
     """
     Reads some parameters in from the command line
@@ -158,18 +261,28 @@ def main(args: list):
             sys.exit(f'bad normamlisation norm={params["norm"]} selected. Exiting')
         pdfName = os.path.join(anaDir, f'singleEMPPlot_norm_{pdfMod}.pdf')
         pdfNameM = os.path.join(anaDir, f'singleEMPPlot_NegParity_norm_{pdfMod}.pdf')
+        pdfNameB = os.path.join(anaDir, f'singleEMPPlot_BothParity_norm_{pdfMod}.pdf')
         pdfNameDiff = os.path.join(anaDir, f'singleEMPPlot_Diff_norm_{pdfMod}.pdf')
     else:
-        pdfName = os.path.join(anaDir, f'singleEMPPlot.pdf')
-        pdfNameM = os.path.join(anaDir, f'singleEMPPlot_NegParity.pdf')
-        pdfNameDiff = os.path.join(anaDir, f'singleEMPPlot_Diff.pdf')
+        pdfName = os.path.join(anaDir, 'singleEMPPlot.pdf')
+        pdfNameM = os.path.join(anaDir, 'singleEMPPlot_NegParity.pdf')
+        pdfNameB = os.path.join(anaDir, 'singleEMPPlot_BothParity.pdf')
+        pdfNameDiff = os.path.join(anaDir, 'singleEMPPlot_Diff.pdf')
     # now this is hwere savign to
     print(f'Saving pdf to {pdfName} and {pdfNameM}')
     temperatures = params['latMass']['temperatures']
+    # vert number
+    vertSplit = params['latMass']['vertSplit']
+    if vertSplit > 1:
+        sharey = False
+    else:
+        sharey = True
     # A plot for negative and positive parities
-    fig, ax = plt.subplots(params['latMass']['vertSplit'], len(temperatures), figsize=(16.6, 11.6), sharey=False, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0})  # noqa: E501
-    figM, axM = plt.subplots(params['latMass']['vertSplit'], len(temperatures), figsize=(16.6, 11.6), sharey=False, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0})  # noqa: E501
-    figDiff, axDiff = plt.subplots(params['latMass']['vertSplit'], len(temperatures), figsize=(16.6, 11.6), sharey=False, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0})  # noqa: E501
+    fig, ax = plt.subplots(vertSplit, len(temperatures), figsize=(16.6, 11.6), sharey=sharey, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0})  # noqa: E501
+    figM, axM = plt.subplots(vertSplit, len(temperatures), figsize=(16.6, 11.6), sharey=sharey, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0})  # noqa: E501
+    # Both on same plot
+    figB, axB = plt.subplots(vertSplit, len(temperatures), figsize=(16.6, 11.6), sharey=sharey, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0})  # noqa: E501
+    figDiff, axDiff = plt.subplots(vertSplit, len(temperatures), figsize=(16.6, 11.6), sharey=sharey, sharex=True, gridspec_kw={'hspace': 0, 'wspace': 0})  # noqa: E501
     # Iterate over different temperatures
     cols = params['latMass']['colours']
     marks = params['latMass']['markers']
@@ -180,25 +293,34 @@ def main(args: list):
     # Setting up the x-axis
     vertDict = {}
     vertCountDict = {}
-    
     uniVert = np.unique(params['latMass']['vertGroup'], return_counts=True)
     xRan = [0, 1]
-    for ii in range(0, params['latMass']['vertSplit']):
-        vertDict.update({uniVert[0][ii]: uniVert[1][ii]})
-        #For the legend
+    for ii in range(0, vertSplit):
+        if vertSplit > 1:
+            vertDict.update({uniVert[0][ii]: uniVert[1][ii]})
+        else:
+            vertDict.update({uniVert[0][ii]: uniVert[0][ii]})
+        # For the legend
         allHandlesDict.update({uniVert[0][ii]: []})
         allLegendsDict.update({uniVert[0][ii]: []})
         expDict.update({uniVert[0][ii]: [False, False]})
     for tt, temp in enumerate(temperatures):
-        for ii in range(0, params['latMass']['vertSplit']):
+        for ii in range(0, vertSplit):
             vertCountDict.update({uniVert[0][ii]: 1})
         NT = params['latMass']['NT'][tt]
         # and then over different hadrons
         for aa, aName in enumerate(params['latMass']['anaName']):
             thisVGroup = params['latMass']['vertGroup'][aa]
-            thisAX = ax[thisVGroup, tt]
-            thisAXM = axM[thisVGroup, tt]
-            thisAXDiff = axDiff[thisVGroup, tt]
+            if vertSplit > 1:
+                thisAX = ax[thisVGroup, tt]
+                thisAXM = axM[thisVGroup, tt]
+                thisAXB = axB[thisVGroup, tt]
+                thisAXDiff = axDiff[thisVGroup, tt]
+            else:
+                thisAX = ax[tt]
+                thisAXM = axM[tt]
+                thisAXB = axB[tt]
+                thisAXDiff = axDiff[tt]
             # Doing the physical mass
             # as lines
             if params['eMass'][aName]['P'] != '':
@@ -213,6 +335,8 @@ def main(args: list):
                 physEM = gv.gvar(None)
             thisAX = GVP.myHSpan(physEP, thisAX, colour=cols[aa], alpha=0.8)
             thisAXM = GVP.myHSpan(physEM, thisAXM, colour=cols[aa], alpha=0.8)
+            thisAXB = GVP.myHSpan(physEP, thisAXB, colour=cols[aa], alpha=0.8)
+            thisAXB = GVP.myHSpan(physEM, thisAXB, colour=cols[aa], alpha=0.8)
             thisAXDiff = GVP.myHSpan(-1.0 * (physEP - physEM) / (physEM + physEP), thisAXDiff, colour=cols[aa], alpha=0.8)  # noqa: E501
             if NT not in params['latMass']['mALabels'][aa]:
                 continue
@@ -259,6 +383,14 @@ def main(args: list):
             thisAXM.plot(xMid, gv.mean(EM), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
             thisAXM = GVP.myFill_between([xStart, xEnd], [EM] * 2, thisAXM, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
             thisAXM = GVP.myFill_between([xStart, xEnd], [EMSys] * 2, thisAXM, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
+            # Both on same plot
+            thisAXB.plot(xMid, gv.mean(EP), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
+            thisAXB = GVP.myFill_between([xStart, xEnd], [EP] * 2, thisAXB, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
+            thisAXB = GVP.myFill_between([xStart, xEnd], [EPSys] * 2, thisAXB, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
+            # neg parity
+            thisAXB.plot(xMid, gv.mean(EM), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
+            thisAXB = GVP.myFill_between([xStart, xEnd], [EM] * 2, thisAXB, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
+            thisAXB = GVP.myFill_between([xStart, xEnd], [EMSys] * 2, thisAXB, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
             # the difference
             thisAXDiff.plot(xMid, gv.mean((EM - EP) / (EM + EP)), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
             thisAXDiff = GVP.myFill_between([xStart, xEnd], [(EM - EP) / (EM + EP)] * 2, thisAXDiff, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
@@ -270,19 +402,38 @@ def main(args: list):
         thisAX.set_xticklabels([])
         fig.supxlabel('Temperature (MeV)')
         fig.supylabel('Mass (GeV)')
-        ax[-1, tt].set_xlabel(f'{temp}')
-        axM[-1, tt].set_xlabel(f'{temp}')
-        axDiff[-1, tt].set_xlabel(f'{temp}')
-        for vs in range(0, params['latMass']['vertSplit']):
+        if vertSplit > 1:
+            ax[-1, tt].set_xlabel(f'{temp}')
+            axM[-1, tt].set_xlabel(f'{temp}')
+            axB[-1, tt].set_xlabel(f'{temp}')
+            axDiff[-1, tt].set_xlabel(f'{temp}')
+        else:
+            ax[tt].set_xlabel(f'{temp}')
+            axM[tt].set_xlabel(f'{temp}')
+            axB[tt].set_xlabel(f'{temp}')
+            axDiff[tt].set_xlabel(f'{temp}')
+        for vs in range(0, vertSplit):
             charmness = params['latMass']['charmness'][vs]
-            ax[vs, 0].text(0.15, 0.8, '$' + f'C={charmness}' + '$', transform=ax[vs, 0].transAxes, usetex=True)  # noqa: E501
-            axM[vs, 0].text(0.15, 0.85, '$' + f'C={charmness}' + '$', transform=axM[vs, 0].transAxes, usetex=True)  # noqa: E501
-            axDiff[vs, 0].text(0.15, 0.85, '$' + f'C={charmness}' + '$', transform=axDiff[vs, 0].transAxes, usetex=True)  # noqa: E501
+            if vertSplit > 1:
+                ax[vs, 0].text(0.15, 0.8, '$' + f'C={charmness}' + '$', transform=ax[vs, 0].transAxes, usetex=True)  # noqa: E501
+                axM[vs, 0].text(0.15, 0.85, '$' + f'C={charmness}' + '$', transform=axM[vs, 0].transAxes, usetex=True)  # noqa: E501
+                axB[vs, 0].text(0.15, 0.85, '$' + f'C={charmness}' + '$', transform=axB[vs, 0].transAxes, usetex=True)  # noqa: E501
+                axDiff[vs, 0].text(0.15, 0.85, '$' + f'C={charmness}' + '$', transform=axDiff[vs, 0].transAxes, usetex=True)  # noqa: E501
+            else:
+                ax[vs].text(0.15, 0.8, '$' + f'C={charmness}' + '$', transform=ax[vs].transAxes, usetex=True)  # noqa: E501
+                axM[vs].text(0.15, 0.85, '$' + f'C={charmness}' + '$', transform=axM[vs].transAxes, usetex=True)  # noqa: E501
+                axB[vs].text(0.15, 0.85, '$' + f'C={charmness}' + '$', transform=axB[vs].transAxes, usetex=True)  # noqa: E501
+                axDiff[vs].text(0.15, 0.85, '$' + f'C={charmness}' + '$', transform=axDiff[vs].transAxes, usetex=True)  # noqa: E501
         # Removing xticks
         thisAXM.set_xticklabels([])
         thisAXM.get_xaxis().set_ticks([])
         figM.supxlabel('Temperature (MeV)')
         figM.supylabel('Mass (GeV)')
+        # Removing xticks FOR BOTH
+        thisAXB.set_xticklabels([])
+        thisAXB.get_xaxis().set_ticks([])
+        figB.supxlabel('Temperature (MeV)')
+        figB.supylabel('Mass (GeV)')
         # and for the diff
         thisAXDiff.set_xticklabels([])
         thisAXDiff.get_xaxis().set_ticks([])
@@ -301,36 +452,69 @@ def main(args: list):
             PosOffset = len(allLegends)
             DiffOffset = len(allLegends)
         else:
-           PosOffset = -1
-           DiffOffset = -1
+            PosOffset = -1
+            DiffOffset = -1
         if expDict[k][1]:
             NegOffset = len(allLegends)
             DiffOffset = DiffOffset
         else:
-           NegOffset = -1
-           DiffOffset = -1
-        ax[k, len(temperatures) - 1].legend(allHandles[:PosOffset], allLegends[:PosOffset], bbox_to_anchor=(params['posXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
-        axM[k, len(temperatures) - 1].legend(allHandles[:NegOffset], allLegends[:NegOffset], bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
-        axDiff[k, len(temperatures) - 1].legend(allHandles[:DiffOffset], allLegends[:DiffOffset], bbox_to_anchor=(params['negXOffset']*1.15, 1), borderaxespad=0, handlelength=1.5)  # noqa: E501
+            NegOffset = -1
+            DiffOffset = -1
+        if vertSplit > 1:
+            ax[k, len(temperatures) - 1].legend(allHandles[:PosOffset], allLegends[:PosOffset], bbox_to_anchor=(params['posXOffset'], 1), borderaxespad=0, handlelength=1.5, fontsize=27)  # noqa: E501
+            axM[k, len(temperatures) - 1].legend(allHandles[:NegOffset], allLegends[:NegOffset], bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5, fontsize=27)  # noqa: E501
+            axB[k, len(temperatures) - 1].legend(allHandles[:NegOffset], allLegends[:NegOffset], bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5, fontsize=27)  # noqa: E501
+            axDiff[k, len(temperatures) - 1].legend(allHandles[:DiffOffset], allLegends[:DiffOffset], bbox_to_anchor=(params['negXOffset']*1.15, 1), borderaxespad=0, handlelength=1.5, fontsize=27)  # noqa: E501
+        else:
+            ax[len(temperatures) - 1].legend(allHandles[:PosOffset], allLegends[:PosOffset], bbox_to_anchor=(params['posXOffset'], 1), borderaxespad=0, handlelength=1.5, fontsize=27)  # noqa: E501
+            axM[len(temperatures) - 1].legend(allHandles[:NegOffset], allLegends[:NegOffset], bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5, fontsize=27)  # noqa: E501
+            axB[len(temperatures) - 1].legend(allHandles[:NegOffset], allLegends[:NegOffset], bbox_to_anchor=(params['negXOffset'], 1), borderaxespad=0, handlelength=1.5, fontsize=27)  # noqa: E501
+            axDiff[len(temperatures) - 1].legend(allHandles[:DiffOffset], allLegends[:DiffOffset], bbox_to_anchor=(params['negXOffset']*1.15, 1), borderaxespad=0, handlelength=1.5, fontsize=27)  # noqa: E501
     # Now determine  and set y-limits and y-ticks
     # determine scales indivudually
     # so can set according to the largest
-    ax, axScale = setYlim(params, ax, ax)
-    axM, axMScale = setYlim(params, axM, axM)
-    if axScale > axMScale:
-        ax, axScale = setYlim(params, ax, ax)
-        axM, axMScale = setYlim(params, axM, ax)
+    if vertSplit > 1:
+        ax, axScale = setYlim2Dim(params, ax, ax)
+        axM, axMScale = setYlim2Dim(params, axM, axM)
+        skip = True
+        if not skip:
+            if axScale > axMScale:
+                ax, axScale = setYlim2Dim(params, ax, ax)
+                axM, axMScale = setYlim2Dim(params, axM, ax)
+            else:
+                ax, axScale = setYlim2Dim(params, ax, axM)
+                axM, axMScale = setYlim2Dim(params, axM, axM)
+        # and set axDiff separately
+        # doesn't work if set on ax currently
+        axDiff = setYlim2Dim(params, axDiff, axDiff)
+        axB = setYlim2Dim(params, axB, axB)
     else:
-        ax, axScale = setYlim(params, ax, axM)
-        axM, axMScale = setYlim(params, axM, axM)
-    # and set axDiff separately
-    # doesn't work if set on ax currently
-    axDiff = setYlim(params, axDiff, axDiff)
-    ax[0, 0].set_xlim(xRan)
+        ax, axScale = setYlim1Dim(params, ax, ax, setY=False)
+        axM, axMScale = setYlim1Dim(params, axM, axM, setY=False)
+        if axScale > axMScale:
+            ax, axScale = setYlim1Dim(params, ax, ax)
+            axM, axMScale = setYlim1Dim(params, axM, ax)
+        else:
+            ax, axScale = setYlim1Dim(params, ax, axM)
+            axM, axMScale = setYlim1Dim(params, axM, axM)
+        # and set axDiff separately
+        # doesn't work if set on ax currently
+        axDiff = setYlim1Dim(params, axDiff, axDiff)
+        axB = setYlim1Dim(params, axB, axB)
+    # if vertSplit > 1:
+    #     ax[0, 0].set_xlim(xRan)
+    # else:
+    #     ax[0].set_xlim(xRan)
+    fig.tight_layout()
     fig.savefig(pdfName)
     plt.close(fig)
+    figM.tight_layout()
     figM.savefig(pdfNameM)
     plt.close(figM)
+    figB.tight_layout()
+    figB.savefig(pdfNameB)
+    plt.close(figB)
+    figDiff.tight_layout()
     figDiff.savefig(pdfNameDiff)
     plt.close(figDiff)
     sys.exit('Finished')
@@ -339,4 +523,6 @@ def main(args: list):
 if __name__ == '__main__':
     mo.initBigPlotSettings()
     rcParams['lines.markersize'] = 8
+    rcParams['font.size'] = 32
+    rcParams['ytick.labelsize'] = 32
     main(sys.argv[1:])
