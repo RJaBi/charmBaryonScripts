@@ -23,12 +23,13 @@ import myModules as mo  # type: ignore # noqa: E402
 import myGVPlotter as GVP  # type: ignore # noqa: E402
 
 
-def setYlim2Dim(params, ax, axScale):
+def setYlim2Dim(params, ax, axScale, ytrim = 0):
     """
     Sets the ylims on each of the subplots
     such that they have the same scale
     Set the scale on ax, using the scale of axScale
     also returns the yScale
+    only updates ymin, ymax if abs(ymin -ymax) > ytrim
     """
     # First iterate over each axis
     # yScale is ymax - ymin
@@ -44,10 +45,11 @@ def setYlim2Dim(params, ax, axScale):
                 ymin, ymax = axScale[vv, hh].get_ylim()
             else:
                 thisYMin, thisYMax = axScale[vv, hh].get_ylim()
-                if thisYMax > ymax:
-                    ymax = thisYMax
-                if thisYMin < ymin:
-                    ymin = thisYMin
+                if abs(thisYMin - thisYMax) > ytrim:
+                    if thisYMax > ymax:
+                        ymax = thisYMax
+                    if thisYMin < ymin:
+                        ymin = thisYMin
             hhvvYScale = abs(ymax - ymin)
             if hhvvYScale > yScale:
                 yScale = hhvvYScale
@@ -349,13 +351,25 @@ def main(args: list):
             df = aDF.query('Nt == @thisNT')
             EP = df['EP'].values[0]
             EPSys = df['EPSys'].values[0]
-            EM = df['EM'].values[0]
-            EMSys = df['EMSys'].values[0]
+            if 'NegMALabels' in params['latMass'].keys():
+                # Check if temp is ini these
+                negTemps = params['latMass']['NegMALabels'][aa]
+                if NT not in negTemps:
+                    negMass = False
+                else:
+                    negMass = True
+                    EM = df['EM'].values[0]
+                    EMSys = df['EMSys'].values[0]
+            else:
+                negMass = True
+                EM = df['EM'].values[0]
+                EMSys = df['EMSys'].values[0]
             # Convert to physical
             EP = gv.gvar(np.asarray(EP)) * hbarc / a_t  # type: ignore
             EPSys = gv.gvar(np.asarray(EPSys)) * hbarc / a_t  # type: ignore
-            EM = gv.gvar(np.asarray(EM)) * hbarc / a_t  # type: ignore
-            EMSys = gv.gvar(np.asarray(EMSys)) * hbarc / a_t  # type: ignore
+            if negMass:
+                EM = gv.gvar(np.asarray(EM)) * hbarc / a_t  # type: ignore
+                EMSys = gv.gvar(np.asarray(EMSys)) * hbarc / a_t  # type: ignore
             if tt == 0:
                 lab = '$' + had + '$'
             else:
@@ -380,21 +394,24 @@ def main(args: list):
             thisAX = GVP.myFill_between([xStart, xEnd], [EP] * 2, thisAX, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
             thisAX = GVP.myFill_between([xStart, xEnd], [EPSys] * 2, thisAX, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
             # neg parity
-            thisAXM.plot(xMid, gv.mean(EM), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
-            thisAXM = GVP.myFill_between([xStart, xEnd], [EM] * 2, thisAXM, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
-            thisAXM = GVP.myFill_between([xStart, xEnd], [EMSys] * 2, thisAXM, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
+            if negMass:
+                thisAXM.plot(xMid, gv.mean(EM), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
+                thisAXM = GVP.myFill_between([xStart, xEnd], [EM] * 2, thisAXM, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
+                thisAXM = GVP.myFill_between([xStart, xEnd], [EMSys] * 2, thisAXM, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
             # Both on same plot
             thisAXB.plot(xMid, gv.mean(EP), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
             thisAXB = GVP.myFill_between([xStart, xEnd], [EP] * 2, thisAXB, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
             thisAXB = GVP.myFill_between([xStart, xEnd], [EPSys] * 2, thisAXB, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
             # neg parity
-            thisAXB.plot(xMid, gv.mean(EM), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
-            thisAXB = GVP.myFill_between([xStart, xEnd], [EM] * 2, thisAXB, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
-            thisAXB = GVP.myFill_between([xStart, xEnd], [EMSys] * 2, thisAXB, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
+            if negMass:
+                thisAXB.plot(xMid, gv.mean(EM), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
+                thisAXB = GVP.myFill_between([xStart, xEnd], [EM] * 2, thisAXB, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
+                thisAXB = GVP.myFill_between([xStart, xEnd], [EMSys] * 2, thisAXB, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
             # the difference
-            thisAXDiff.plot(xMid, gv.mean((EM - EP) / (EM + EP)), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
-            thisAXDiff = GVP.myFill_between([xStart, xEnd], [(EM - EP) / (EM + EP)] * 2, thisAXDiff, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
-            thisAXDiff = GVP.myFill_between([xStart, xEnd], [(EMSys - EPSys) / (EMSys + EPSys)] * 2, thisAXDiff, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
+            if negMass:
+                thisAXDiff.plot(xMid, gv.mean((EM - EP) / (EM + EP)), marker=marks[aa], linestyle='', color=cols[aa], markeredgecolor='black')  # noqa: E501
+                thisAXDiff = GVP.myFill_between([xStart, xEnd], [(EM - EP) / (EM + EP)] * 2, thisAXDiff, ls='', colour=cols[aa], alpha=0.5)  # noqa: E501
+                thisAXDiff = GVP.myFill_between([xStart, xEnd], [(EMSys - EPSys) / (EMSys + EPSys)] * 2, thisAXDiff, ls='', colour=cols[aa], alpha=0.3)  # noqa: E501
             thisAXDiff.axhline(y=0, linestyle=':', alpha=0.2, color='black')
         # outside loop
         thisAX.set_xlabel(f'{temp}')
@@ -475,7 +492,8 @@ def main(args: list):
     # so can set according to the largest
     if vertSplit > 1:
         ax, axScale = setYlim2Dim(params, ax, ax)
-        axM, axMScale = setYlim2Dim(params, axM, axM)
+        axM, axMScale = setYlim2Dim(params, axM, axM, ytrim=0.2)
+        print('axScale, axMScale', axScale, axMScale)
         skip = True
         if not skip:
             if axScale > axMScale:
