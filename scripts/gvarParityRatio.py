@@ -264,7 +264,11 @@ def main(args: list):
                 ex = text.get_window_extent()
                 tex = axCurve.transData.inverted().transform_bbox(ex)
                 print('tex is ', tex)
-                xM = tex.x0 + 1050.0 * tex.height
+                if TpcScale == 1.0:
+                    xM = 455 / 167
+                else:
+                    xM = 455
+                #xM = tex.x0 + 1050.0 * tex.height
                 yM = tex.y0 + 0.5 * tex.height
                 axCurve.plot(xM, yM, marker=marks[markCount], color=cols[colCount], linestyle='')
 
