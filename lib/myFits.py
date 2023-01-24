@@ -94,3 +94,8 @@ def getWinTicks(ax, wins: List[str]) -> List[str]:
     # Changing the ticks to only be the ones we want
     ax.set_xticks(xticks)
     return startTicks
+
+
+# As suggested in 2007.04188
+def arctan(x, p):
+    return p['c0'] + p['c1'] * np.arctan(p['c2'] * (x - p['Tpc']))
