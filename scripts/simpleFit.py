@@ -1142,8 +1142,9 @@ def main(args: list):
         ]  # noqa: E124
         ax1 = effEPlot(x, effE, ax1, hoz, ma='d', lab=None, ls='', hozColour=hozCols, hozLabs=hozLabs, hozls=hozls)  # noqa: E501
         # Finalising
-        ax1.legend(loc='best', ncol=2)
-        ax1.set_ylabel('$a_\\tau\,E^{' + f'{ana.replace("_", ".").replace("x", "X")}' + '}(\\tau)$', fontsize=36)  # noqa: W605, E501
+        ax1.legend(loc='best', ncol=2, fontsize=30)
+        #ax1.set_ylabel('$a_\\tau\,E^{' + f'{ana.replace("_", ".").replace("x", "X")}' + '}(\\tau)$', fontsize=36)  # noqa: W605, E501
+        ax1.set_ylabel('$a\,m_{eff}(\\tau)$')
         ax1.set_xlabel('$\\tau / a_\\tau$', fontsize=36)  # noqa: W605
         ax1.set_ylim(params['analysis']['effEyLim'])
         # effEYLim = ax1.get_ylim()
