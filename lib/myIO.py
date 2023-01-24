@@ -3,9 +3,11 @@ import sys
 from typing import Any, List, Dict
 import numpy as np  # type: ignore
 from scipy import linalg  # type: ignore
+import gc
 import os
 import sympy as sp  # type: ignore
 import gvar as gv  # type: ignore
+import myModules as mo
 
 gvarSeed = 100
 
@@ -348,7 +350,25 @@ def initCorrelators(params):
     smLabels = params['analysis']['symMathLabels']
     smMaths = params['analysis']['symMathMaths']
     if len(smLabels) != len(smMaths):
+        print('smLabels', 'smMaths')
+        if len(smLabels) < len(smMaths):
+            for ii in range(0, len(smMaths)):
+                try:
+                    print(smLabels[ii], smMaths[ii])
+                except IndexError:
+                    print(smMaths[ii])
+        else:
+            for ii in range(0, len(smLabels)):
+                try:
+                    print(smLabels[ii], smMaths[ii])
+                except IndexError:
+                    print(smLabels[ii])
         sys.exit('symMath labels and Maths must be matched pair of lists')
+    # Determining if we have any resampling (jackknife) to do
+    resample = False
+    if np.any(['resample' in x for x in smMaths]):
+        resample = True
+        resampleDict = {}        
     for lab, math in zip(smLabels, smMaths):
         print('Doing math for ', lab, math)
         if 'var' in math:
@@ -440,7 +460,7 @@ def initCorrelators(params):
             # Then it calculates mean + resamples for G11, G22
             func, aV, outVar = strToLambda(math)
             myVar = {}
-            myVarGVResampled = {}
+            myVarJack = []
             for var in aV:
                 # print(var, np.mean(cfDict['data'][var], axis=0)[0:5])
                 # sys.exit()
@@ -449,36 +469,17 @@ def initCorrelators(params):
                     sys.exit('Exiting')
                 # Grab the data
                 myVar.update({var: cfDict['data'][var]})
-                myVarGVResampled.update({var: np.empty(0)})
-            # Now make it into a tuple so can unpack
-            # Here we set the variables to be appropriate values
-            # First convert to gvar. Gets Mean + std err for each
-            myVarGV = gv.dataset.avg_data(myVar)
-            # Now get an iterator which draws random numbers from the distribution
-            # of our data
-            myVarGVIter = gv.raniter(myVarGV)
-            # Do the max of the number of nconf we had and 300
-            maxNcon = np.max([x.shape[0] for k, x in myVar.items()] + [300])
-            # and do the resampling
-            for nn in range(0, maxNcon):
-                for k, v in next(myVarGVIter).items():
-                    if nn == 0:
-                        myVarGVResampled[k] = np.zeros([maxNcon] + list(v.shape))
-                        print(myVarGVResampled[k].shape)
-                    # assign now initialised
-                    myVarGVResampled[k][nn, ...] = v
-            myVarResampled = []
-            # and repackage it like usual
-            for var in aV:
-                if var not in myVarGVResampled.keys():
-                    print('label '+var+' not in :myVarGVResampled', myVarGVResampled)
-                    sys.exit('Exiting')
-                # Grab the resampled data
-                myVarResampled.append(myVarGVResampled[var])
-            myVarTuple = tuple(myVarResampled)
-            # and call the function and put into correlator dictionary with label
-            cfDict['data'].update({lab: func(*myVarTuple)})
-            # print(lab, np.mean(cfDict['data'][lab], axis=0)[0:5])
+                myVarJack.append(mo.doJack(cfDict['data'][var], order=2))
+            # Package into a tuple so can unpack
+            myVarJackTuple = tuple(myVarJack)
+            # and call the function
+            dataJack = func(*myVarJackTuple)
+            dataGV = gv.gvar(dataJack[0, 0, ...], mo.jackCov(dataJack[:, 0, ...]))
+            del myVarJack
+            gc.collect()
+            # Put it in the resampleDictionary for later
+            resampleDict.update({lab: dataGV})
+            # and update the rest of the lists
             cfDict['params'].update({lab: cfDict['params'][aV[0]]})
             # And update the list of labels for 'correlators' we have
             cfLabelsList.append(lab)
@@ -504,5 +505,7 @@ def initCorrelators(params):
             print('TODO: Check that maths is compatible. I.e. that from same ensemble, same configs. Using i.e ILAFF or manual checks')  # noqa: E501
             # And update the list of labels for 'correlators' we have
             cfLabelsList.append(lab)
-
-    return cfDict, cfLabelsList
+    if resample:
+        return cfDict, cfLabelsList, resampleDict
+    else:
+        return cfDict, cfLabelsList
