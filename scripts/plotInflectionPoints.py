@@ -58,19 +58,25 @@ def main(args: list):
             yScale = ''
         else:
             sys.exit(f'bad TpcType = {params["TpcType"]}')
-        xAxis = df['ana'].values
+        #xAxis = df['ana'].values
+        xAxis = df['symb'].values
         leftScript = params['leftSuperScript'][dd]
         for xx, xV in enumerate(xAxis):
-            xAxis[xx] = '${}^{' + leftScript + '}' + xV[1:]
+            xAxis[xx] = '${}^{' + leftScript + '}' + xV[1:] + '$'
         markers = mo.markers
         for x, y, mark in zip(xAxis, Tpc, markers):
             if y < 0.8 * PsiTpc or y > 1.2 * PsiTpc:
+                continue
+            if 'c' not in x:
+                # skipping C=0
+                # cycle the colour
+                next_colour = next(ax._get_lines.prop_cycler)['color']
                 continue
             xLabels.append(x)
             ax = GVP.plot_gvEbar(x, y, ax, ma=mark, ls='')
     # finalise plot
     ax.set_xticklabels(xLabels, rotation=90)
-    ax.set_ylabel('$T_c$' + yScale)
+    ax.set_ylabel('$T_{pc}$' + yScale)
     ax.set_xlabel('Baryon')
     ax.legend(loc='best', ncol=2, fontsize=36)
     plt.savefig(os.path.join(anaDir, 'inflectionPoints.pdf'))

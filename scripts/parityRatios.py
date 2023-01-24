@@ -333,6 +333,7 @@ def main(args: list):
     colCount = 0
     markCount = 0
     inflectVals = {}
+    inflectLabs = {}
     for taa, ana in enumerate(allAnaOps):
         thisAnaLab = params['cfuns']['hadrons'][taa]
         # find the inflection points
@@ -364,6 +365,7 @@ def main(args: list):
             markCount = markCount + 1
             continue
         inflectVals.update({ana: inflectVal})
+        inflectLabs.update({ana: thisAnaLab[1:-1]})  # removes the $
         # and plot
         axRn0 = GVP.myVSpan(inflectVal, axRn0, lab='$' + thisAnaLab + f'= {inflectVal}$ MeV', colour=GVP.colours[colCount])  # noqa: E501
 
@@ -397,7 +399,7 @@ def main(args: list):
     # Save them again
     saveFile = os.path.join(anaDir, 'Inflect_M_Sdev.csv')
     with open(saveFile, 'w') as f:
-        f.write(f'ana, MeV, MeVErr, TTpc, TTpcErr \n')
+        f.write(f'ana, symb, MeV, MeVErr, TTpc, TTpcErr \n')
         for ana, temp in inflectVals.items():
             tempMeV = temp * TpcScale
             if TpcScale == 1.0:
@@ -406,7 +408,7 @@ def main(args: list):
             else:
                 tempMeV = temp
                 tempTpc = temp / TpcScale
-            f.write(f'{ana}, {gv.mean(tempMeV)}, {gv.sdev(tempMeV)}, {gv.mean(tempTpc)}, {gv.sdev(tempTpc)} \n')  # noqa: E501
+            f.write(f'{ana}, {inflectLabs[f"{ana}"]}, {gv.mean(tempMeV)}, {gv.sdev(tempMeV)}, {gv.mean(tempTpc)}, {gv.sdev(tempTpc)} \n')  # noqa: E501
     sys.exit('Done')
 
 
