@@ -134,3 +134,54 @@ def replace_nth(s, sub, repl, n=1):
         sub.join([chunks[i * n + j] for j in range(n if (i + 1) * n < size else size - i * n)])
         for i in range(rows)
     ])
+
+
+def doJack(data: np.ndarray, order=1):
+    """
+    Does jackknife resampling
+    i.e. generates jackknife subensembles
+    At specific order, assuming data is the original, unjackknifed data
+    Assumes config is the leftmost index of data
+    """
+    if order == 1:
+        print('consider not doing this seems broken with jackCov')
+        jack = np.empty(data.shape)
+        for ii in range(0, jack.shape[0]):
+            jack[ii, ...] = (np.sum(data, axis=0) - data[ii, ...]) / (data.shape[0] - 1)
+    elif order == 2:
+        ncon = data.shape[0]
+        jack = np.empty([ncon + 1, ncon + 1] + list(data.shape[1:]))
+        print(jack.shape)
+        jack[0, 0, ...] = doJack(data, 0)    # Mean
+        jack[1:, 0, ...] = doJack(data, 1)    # 1st Order Jacks
+        jack[0, 1:, ...] = data    # Just the data
+        for ii in range(1, ncon+1):
+            for jj in range(1, ncon+1):
+                jack[ii, jj, ...] = (np.sum(data, axis=0) - data[ii-1] - data[jj-1])/(ncon-2)
+    elif order == 0:
+        # Just take the average
+        jack = np.mean(data, axis=0)
+    else:
+        sys.exit('higher order jackknfies not implemented yet')
+
+    return jack
+
+
+def jackCov(jack1: np.ndarray) -> np.ndarray:
+    """
+    estimates elements of covariance matrix via the jackknife method
+    The data is of form [0:ncon,...]
+    where 0 is the ensemble average value
+    Returns matrix C[ti,]
+    """
+    ncon = float(jack1.shape[0] - 1)
+    return np.cov(jack1, rowvar=False) * (ncon - 1)
+
+
+def find_nearest(array, value):
+    """
+    Finds the index of the point in the array which is closest to value
+    """
+    array = np.asarray(array)
+    idx = (np.fabs(array - value)).argmin()
+    return idx
